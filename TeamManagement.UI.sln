@@ -26,6 +26,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{19C446
 		.nuget\NuGet.targets = .nuget\NuGet.targets
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UI", "UI", "{35A29B6F-A7B8-4BCC-936E-DDC377ED42FA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TeamManagement.Web", "TeamManagement.Web\TeamManagement.Web.csproj", "{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -52,6 +56,10 @@ Global
 		{5FEC3030-31DD-45A9-A633-DC35D184585B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5FEC3030-31DD-45A9-A633-DC35D184585B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5FEC3030-31DD-45A9-A633-DC35D184585B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -60,5 +68,6 @@ Global
 		{8472085D-9DD6-4B3A-AA37-BC7C7CD89FDB} = {25D35769-492A-4DA2-9702-1B015EFDCCF2}
 		{E860B03D-A33C-432E-98D3-46C9183585B3} = {AEDF435E-4E14-4C73-91FB-9457C8984BBB}
 		{5FEC3030-31DD-45A9-A633-DC35D184585B} = {629BBA8E-9BA5-4FDB-AAFD-3D0E08ACAA71}
+		{7F88E760-CFA0-4D95-ACD2-3CB76C9E4AE2} = {35A29B6F-A7B8-4BCC-936E-DDC377ED42FA}
 	EndGlobalSection
 EndGlobal

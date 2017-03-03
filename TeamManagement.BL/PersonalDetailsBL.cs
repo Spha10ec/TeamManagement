@@ -4,38 +4,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TeamManagement.BO;
+using TEamManagement.DL;
 
 namespace TeamManagement.BL
 {
     public class PersonalDetailsBL
     {
-            private PersonalDetails personalDetails;
+        private PersonalDetailsDL personalDetails;
 
             public PersonalDetailsBL()
         {
-            personalDetails = new PersonalDetails();
+            personalDetails = new PersonalDetailsDL();
         }
 
-            public IEnumerable<PersonalDetails> GetALL()
+            public IEnumerable<PersonalDetail> GetALL()
         {
             return personalDetails.GetALL();
         }
 
-        public tbl_Url GetByID(int Id)
+            public PersonalDetail GetByID(int Id)
         {
-            return objDb.GetByID(Id);
+            return personalDetails.GetByID(Id);
         }
-        public void Insert(tbl_Url url)
+            public void Insert(PersonalDetail url)
         {
-            objDb.Insert(url);
+            personalDetails.Insert(url);
         }
         public void Delete(int Id)
         {
-            objDb.Delete(Id);
+            personalDetails.Delete(Id);
         }
-        public void Update(tbl_Url url)
+        public void Update(tbl_PersonalDetails url)
         {
-            objDb.Update(url);
+            personalDetails.Update(url);
         }
     }
 }

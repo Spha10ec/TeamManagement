@@ -47,6 +47,10 @@
       <Project>{5fec3030-31dd-45a9-a633-dc35d184585b}</Project>
       <Name>TeamManagement.BO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\TEamManagement.DL\TeamManagement.DL.csproj">
+      <Project>{e860b03d-a33c-432e-98d3-46c9183585b3}</Project>
+      <Name>TeamManagement.DL</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
