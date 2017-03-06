@@ -1,4 +1,5 @@
-﻿@{
+﻿@model TeamManagement.Web.Models.PersonalDetailsModel
+@{
     ViewBag.Title = "Home";
 }
 <div id="myCarousel" class="carousel slide">
@@ -50,7 +51,8 @@
             <div class="col-lg-4 col-md-4">
                 </div>
             <div class="col-lg-4 col-md-4">
-                <form class="form-horizontal">
+                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new {@class ="form-horizontal" }))
+                {
                     <fieldset>
 
                         <!-- Form Name -->
@@ -58,23 +60,36 @@
 
                         <!-- Text input-->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="textinput">First Name</label>
+                            @Html.LabelFor(model => model.FirstName, new { @class = "col-md-4 control-label" })
                             <div class="col-md-4">
-                                <input id="txtFirstName" name="textinput" type="text" placeholder="placeholder" class="form-control input-md">
+                                @Html.TextBoxFor(model => model.FirstName, new {@placeholder="first name", @class = "form-control input-md" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LastName, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.LastName, new { @placeholder = "last name", @class = "form-control input-md" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.IdNumber, new { @class = "col-md-4 control-label" })
+                            <div class="col-md-4">
+                                @Html.TextBoxFor(model => model.IdNumber, new { @placeholder = "last name", @class = "form-control input-md" })
                             </div>
                         </div>
 
                         <!-- Button (Double) -->
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="button1id">Double Button</label>
                             <div class="col-md-8">
-                                <button id="button1id" name="button1id" class="btn btn-success">Good Button</button>
-                                <button id="button2id" name="button2id" class="btn btn-danger">Scary Button</button>
+                                
+                                <button id="button1id" type="submit" name="button1id" class="btn btn-success">Submit</button>
+                                <button id="button2id" name="button2id" class="btn btn-danger">Cancel</button>
                             </div>
                         </div>
 
                     </fieldset>
-                </form>
+                }
+           
 
                   </div>
           
