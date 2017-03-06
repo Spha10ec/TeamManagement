@@ -26,9 +26,9 @@ namespace TeamManagement.BL
         {
             return personalDetails.GetByID(Id);
         }
-            public void Insert(PersonalDetail url)
+            public string Insert(PersonalDetail url)
         {
-            personalDetails.Insert(url);
+           return personalDetails.Insert(url);
         }
         public void Delete(int Id)
         {

@@ -47,54 +47,64 @@
 
     <div class="container">
 
-        <div class="row">
-            <div class="col-lg-4 col-md-4">
-                </div>
-            <div class="col-lg-4 col-md-4">
-                @using (Html.BeginForm("Index", "Home", FormMethod.Post, new {@class ="form-horizontal" }))
+        @if (Model != null)
+        {
+            <div class="alert alert-success col-sm-offset-2 col-sm-10">
+                if (Model.successMessage)
                 {
-                    <fieldset>
-
-                        <!-- Form Name -->
-                        <legend>Registration</legend>
-
-                        <!-- Text input-->
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.FirstName, new { @class = "col-md-4 control-label" })
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(model => model.FirstName, new {@placeholder="first name", @class = "form-control input-md" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.LastName, new { @class = "col-md-4 control-label" })
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(model => model.LastName, new { @placeholder = "last name", @class = "form-control input-md" })
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            @Html.LabelFor(model => model.IdNumber, new { @class = "col-md-4 control-label" })
-                            <div class="col-md-4">
-                                @Html.TextBoxFor(model => model.IdNumber, new { @placeholder = "last name", @class = "form-control input-md" })
-                            </div>
-                        </div>
-
-                        <!-- Button (Double) -->
-                        <div class="form-group">
-                            <div class="col-md-8">
-                                
-                                <button id="button1id" type="submit" name="button1id" class="btn btn-success">Submit</button>
-                                <button id="button2id" name="button2id" class="btn btn-danger">Cancel</button>
-                            </div>
-                        </div>
-
-                    </fieldset>
+                <span>
+                    <strong>Success!</strong> The record has been successfully inserted.
+                </span>
                 }
-           
+                else if (!Model.successMessage)
+                {
+                <span>
+                    @Html.Raw(Model.errorMessage);
+                </span>
+                }
+            </div>
+        }
 
-                  </div>
-          
-        </div>
-        <!-- /.row -->
+
+        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
+        {
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "first name", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.FirstName,null, new{ @class ="errorMessage"})
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "last name", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.LastName, null, new { @class = "errorMessage" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.IdNumber, new { @class = "control-label col-sm-2" })
+                <div class="col-sm-3">
+                    @Html.TextBoxFor(model => model.IdNumber, new { @placeholder = "last name", @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.IdNumber, null, new { @class = "errorMessage" })
+                </div>
+            </div>
+
+                <!-- Button (Double) -->
+            <div class="form-group">
+                <div class="col-sm-offset-2 col-sm-10">
+
+                    <button id="button1id" type="submit" name="button1id" class="btn btn-success">Submit</button>
+                    <button id="button2id" name="button2id" class="btn btn-danger">Cancel</button>
+                </div>
+            </div>
+
+
+        }
+
+
+
 
     </div>
     <!-- /.container -->

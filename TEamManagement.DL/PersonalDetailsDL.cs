@@ -25,10 +25,22 @@ namespace TEamManagement.DL
         {
             return db.PersonalDetails.Find(Id);
         }
-        public void Insert(PersonalDetail user)
+        public string Insert(PersonalDetail user)
         {
-            db.PersonalDetails.Add(user);
-            Save();
+            var errorMessage = String.Empty;
+            try
+            {
+                db.PersonalDetails.Add(user);
+                db.SaveChanges();
+                return errorMessage;
+            }
+            catch (Exception ex)
+            {
+                errorMessage = ex.Message;
+                return errorMessage;
+            }
+
+            
         }
         public void Delete(int Id)
         {

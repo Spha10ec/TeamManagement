@@ -12,6 +12,7 @@ namespace TeamManagement.Web.Controllers
     {
         public ActionResult Index()
         {
+           
             return View();
         }
         [HttpPost]
@@ -26,7 +27,20 @@ namespace TeamManagement.Web.Controllers
                     IdNumber = model.IdNumber,
                     Surname = model.LastName
                 };
-                insertUser.Insert(insertUserModel);
+              string message = insertUser.Insert(insertUserModel);
+             
+                if(message.Equals(String.Empty))
+                {
+                    model.successMessage = true;
+                    model.errorMessage = "Record Successfully updated";
+                    return View(model);
+                }
+                else
+                {
+                    model.successMessage = false;
+                    model.errorMessage =message;
+                    return View(model);
+                }
             }
             return View();
         }
