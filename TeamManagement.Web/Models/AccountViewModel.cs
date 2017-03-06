@@ -45,6 +45,10 @@ namespace TeamManagement.Web.Models
 
         [Display(Name = "Remember me?")]
         public bool RememberMe { get; set; }
+
+        public string errorMessage { get; set; }
+
+        public bool successMessage { get; set; }
     }
 
     public class RegisterViewModel

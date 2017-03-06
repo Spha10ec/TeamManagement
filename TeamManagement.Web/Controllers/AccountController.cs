@@ -57,12 +57,13 @@ namespace TeamManagement.Web.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError("", "Confirm Email Address.");
+                        model.errorMessage = "1";
+                       // ModelState.AddModelError("", "Confirm Email Address.");
                     }
                 }
                 else
                 {
-                    ModelState.AddModelError("", "Invalid username or password.");
+                    model.errorMessage = "2";
                 }
             }
 
