@@ -4,10 +4,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace TeamManagement.Web.ViewModels
+namespace TeamManagement.Web.Models
 {
-
-    public class ExternalLoginConfirmationViewModel
+   public class ExternalLoginConfirmationViewModel
     {
         [Required]
         [Display(Name = "User name")]
@@ -75,5 +74,4 @@ namespace TeamManagement.Web.ViewModels
 
         public string errorMessage { get; set; }
     }
-
 }
