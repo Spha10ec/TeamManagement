@@ -18,41 +18,56 @@
                 else if (!Model.successMessage)
                 {
                     <span>
-                        @Html.Raw(Model.errorMessage);
+                        @Html.ValidationSummary()
                     </span>
                 }
+
             </div>
         }
+
+
         @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
         {
             @Html.AntiForgeryToken()
             <div class="form-group">
-                <h4>Create a new account.</h4>
-                <hr />
-                @Html.ValidationSummary()
+                <div class="col-sm-3">
+                    <h4>Create a new account.</h4>
+                </div>
+
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label" })
+                @Html.LabelFor(m => m.UserName, new { @class = "col-md-2 control-label"})
                 <div class="col-sm-3">
-                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control" })
+                    @Html.TextBoxFor(m => m.UserName, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a username" })
+                    @Html.ValidationMessageFor(m => m.UserName, null, new { @class = "errorMessage" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
                 <div class="col-sm-3">
                     @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Password, null, new { @class = "errorMessage" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
                 <div class="col-sm-3">
                     @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.ConfirmPassword, null, new { @class = "errorMessage" })
                 </div>
             </div>
             <div class="form-group">
                 @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
                 <div class="col-sm-3">
                     @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.Email, null, new { @class = "errorMessage" })
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.role, new { @class = "col-md-2 control-label" })
+                <div class="col-sm-3">
+                   @Html.DropDownListFor(m => m.role, Model.RoleList, "Select one", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(m => m.role, null, new { @class = "errorMessage" })
                 </div>
             </div>
             <div class="form-group">

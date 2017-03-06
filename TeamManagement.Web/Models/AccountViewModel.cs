@@ -77,5 +77,9 @@ namespace TeamManagement.Web.Models
         public bool successMessage { get; set; }
 
         public string errorMessage { get; set; }
+
+        public System.Web.Mvc.SelectList RoleList { get; set; }
+
+        public string role { get; set; }
     }
 }

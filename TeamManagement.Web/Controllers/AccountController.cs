@@ -13,7 +13,7 @@ using TeamManagement.Web.Models;
 
 namespace TeamManagement.Web.Controllers
 {
-   // [Authorize]
+    // [Authorize]
     public class AccountController : Controller
     {
         public AccountController()
@@ -53,12 +53,13 @@ namespace TeamManagement.Web.Controllers
                     //return RedirectToLocal(returnUrl);
                     if (user.ConfirmedEmail == true)
                     {
-                        await SignInAsync(user, model.RememberMe); return RedirectToLocal(returnUrl);
+                        await SignInAsync(user, model.RememberMe);
+                        return RedirectToLocal(returnUrl);
                     }
                     else
                     {
                         model.errorMessage = "1";
-                       // ModelState.AddModelError("", "Confirm Email Address.");
+                        // ModelState.AddModelError("", "Confirm Email Address.");
                     }
                 }
                 else
@@ -74,10 +75,20 @@ namespace TeamManagement.Web.Controllers
         //
         // GET: /Account/Register
 
-     //   [Authorize(Roles = "Administrators")]
+        //   [Authorize(Roles = "Administrators")]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            model.RoleList = new SelectList(
+                                new List<SelectListItem>
+                                {
+                                    new SelectListItem { Selected = false, Text = "Administrator", Value = "Admin"},
+                                    new SelectListItem { Selected = false, Text = "Coach", Value = "Coach"},
+                                    new SelectListItem { Selected = false, Text = "Player", Value = "Player"},
+                                    new SelectListItem { Selected = false, Text = "Supporter", Value = "Supporter"},
+                                }, "Value", "Text", 1);
+            ViewBag["RoleList"] = model.RoleList;
+            return View(model);
         }
         [AllowAnonymous]
         public ActionResult Confirm(string Email)
@@ -112,7 +123,7 @@ namespace TeamManagement.Web.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-    //    [Authorize]
+        //    [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -137,14 +148,15 @@ namespace TeamManagement.Web.Controllers
 
                     client.Credentials = cred;
                     client.EnableSsl = true;
-                    client.UseDefaultCredentials = false; 
-                   // client.Send(msg);
+                    client.UseDefaultCredentials = false;
+                    // client.Send(msg);
                     // await SignInAsync(user, isPersistent: false);
-                   // ViewBag.Email = user.Email;
+                    // ViewBag.Email = user.Email;
                     return RedirectToAction("Confirm", "Account", new { Email = user.Email });
                 }
                 else
                 {
+                    // ViewBag["errors"] = AddErrors(result);
                     AddErrors(result);
                 }
             }
