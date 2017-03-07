@@ -79,15 +79,10 @@ namespace TeamManagement.Web.Controllers
         public ActionResult Register()
         {
             var model = new RegisterViewModel();
-            model.RoleList = new SelectList(
-                                new List<SelectListItem>
-                                {
-                                    new SelectListItem { Selected = false, Text = "Administrator", Value = "Admin"},
-                                    new SelectListItem { Selected = false, Text = "Coach", Value = "Coach"},
-                                    new SelectListItem { Selected = false, Text = "Player", Value = "Player"},
-                                    new SelectListItem { Selected = false, Text = "Supporter", Value = "Supporter"},
-                                }, "Value", "Text", 1);
-            ViewBag["RoleList"] = model.RoleList;
+            ApplicationDbContext context = new ApplicationDbContext();
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Player"))    
+                                    .ToList(), "Name", "Name");    
+           // ViewBag["RoleList"] = model.RoleList;
             return View(model);
         }
         [AllowAnonymous]
@@ -135,23 +130,31 @@ namespace TeamManagement.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    NetworkCredential cred = new NetworkCredential("siphabs@gmail.com", "Spha!@ec");
+                   var roleAdded = await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                   if (roleAdded.Succeeded)
+                   {
+                       NetworkCredential cred = new NetworkCredential("siphabs@gmail.com", "Spha!@ec");
 
-                    MailMessage msg = new MailMessage();
-                    msg.To.Add("siphabs@gmail.com");
-                    msg.From = new MailAddress("nonreply@gmail.com");
+                       MailMessage msg = new MailMessage();
+                       msg.To.Add("siphabs@gmail.com");
+                       msg.From = new MailAddress("nonreply@gmail.com");
 
-                    msg.Subject = "Email confirmation";
-                    msg.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme));
-                    msg.IsBodyHtml = true;
-                    SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                       msg.Subject = "Email confirmation";
+                       msg.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme));
+                       msg.IsBodyHtml = true;
+                       SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
 
-                    client.Credentials = cred;
-                    client.EnableSsl = true;
-                    client.UseDefaultCredentials = false;
-                    // client.Send(msg);
-                    // await SignInAsync(user, isPersistent: false);
-                    // ViewBag.Email = user.Email;
+                       client.Credentials = cred;
+                       client.EnableSsl = true;
+                       client.UseDefaultCredentials = false;
+                       // client.Send(msg);
+                       // await SignInAsync(user, isPersistent: false);
+                       // ViewBag.Email = user.Email;
+                   }
+                   else
+                   {
+                       AddErrors(result);
+                   }
                     return RedirectToAction("Confirm", "Account", new { Email = user.Email });
                 }
                 else
