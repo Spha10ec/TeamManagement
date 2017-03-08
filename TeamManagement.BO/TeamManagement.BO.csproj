@@ -52,8 +52,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerDetailsValidation.cs" />
     <Compile Include="PersonalDetailsValidation.cs" />
     <Compile Include="PersonalDetail.cs">
+      <DependentUpon>TeamManagementEntities.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PlayerDetail.cs">
       <DependentUpon>TeamManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />

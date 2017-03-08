@@ -439,13 +439,26 @@ namespace TeamManagement.Web.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
+            var user = User.Identity;
+            ApplicationDbContext context = new ApplicationDbContext();
+            var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
+            var userRoleCollection = UserManager.GetRoles(user.GetUserId());
+            string userRole = userRoleCollection.ToString().ToLower();
+
             if (Url.IsLocalUrl(returnUrl))
             {
                 return Redirect(returnUrl);
             }
             else
             {
-                return RedirectToAction("Index", "Home");
+                if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home");
+                }
             }
         }
 

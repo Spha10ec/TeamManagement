@@ -1,71 +1,131 @@
-﻿@model TeamManagement.Web.Models.PersonalDetailsModel
-@{
-    ViewBag.Title = "Home";
-}
+﻿
+<script src="~/Scripts/jquery-2.1.3.min.js"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
 @Html.Partial("_Slides")
-
 <div class="section">
 
     <div class="container">
+        <div class="form-group">
+          
+                <h4>Players List</h4>
 
-        @if (Model != null)
-        {
-            <div class="alert alert-success col-sm-offset-2 col-sm-10">
-                if (Model.successMessage)
-                {
-                <span>
-                    <strong>Success!</strong> The record has been successfully inserted.
-                </span>
-                }
-                else if (!Model.successMessage)
-                {
-                <span>
-                    @Html.Raw(Model.errorMessage);
-                </span>
-                }
-            </div>
-        }
-        @using (Html.BeginForm("Index", "Home", FormMethod.Post, new { @class = "form-horizontal" }))
-        {
+        </div>
+      <br />
+                <div class="panel panel-default pre-scrollable">
+                    <table class="table table-striped table-bordered table-responsive table-condensed table-hover">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>First Name</th>
+                                <th>Last Name</th>
+                                <th>Date Of Birth</th>
+                                <th>Weight</th>
+                                <th>Height</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody data-bind="foreach:Persons">
+                            <tr>
+                                <td>
+                                    <span data-bind="text:Id"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:FirstName"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:LastName"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:DateOfBirth"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:Weight"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:Height"></span>
+                                </td>
+                                <td>
+                                    <span data-bind="text:Notes"></span>
+                                </td>
+                                <td>
+                                    <button class="btn glyphicon glyphicon-pencil" data-bind="click:$root.getSelected" />
+                                </td>
+                                <td>
+                                    <button class="glyphicon glyphicon-trash" data-bind="click:$root.delete" />
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            
 
-            <div class="form-group">
-                @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextBoxFor(model => model.FirstName, new { @placeholder = "first name", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.FirstName, null, new { @class = "errorMessage" })
+        <div id="modalbox" class="modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1>Register New Person</h1>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-condensed table-striped table-bordered">
+                            <tr>
+                                <td>First Name:</td>
+                                <td>
+                                    <input type="text" data-bind="value:FirstName" class="form-control" />
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>Last Name:</td>
+                                <td>
+                                    <input type="text" data-bind="value:LastName" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Address</td>
+                                <td>
+                                    <textarea data-bind="value:DateOfBirth" class="form-control"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>City:</td>
+                                <td>
+                                    <input type="text" data-bind="value:Weight" class="form-control" />
+                                </td>
+                            </tr>
+                            <
+                            <tr>
+                                <td>Phone No:</td>
+                                <td>
+                                    <input type="text" data-bind="value:Height" class="form-control" />
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mobile No:</td>
+                                <td>
+                                    <input type="text" data-bind="value:Notes" class="form-control" />
+                                </td>
+                            </tr>
+
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button class="btn btn-primary" data-bind="click:save">Ok</button>
+                    </div>
                 </div>
             </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.LastName, new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextBoxFor(model => model.LastName, new { @placeholder = "last name", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.LastName, null, new { @class = "errorMessage" })
-                </div>
-            </div>
-            <div class="form-group">
-                @Html.LabelFor(model => model.IdNumber, new { @class = "control-label col-sm-2" })
-                <div class="col-sm-3">
-                    @Html.TextBoxFor(model => model.IdNumber, new { @placeholder = "last name", @class = "form-control" })
-                    @Html.ValidationMessageFor(m => m.IdNumber, null, new { @class = "errorMessage" })
-                </div>
-            </div>
-
-                <!-- Button (Double) -->
-            <div class="form-group">
-                <div class="col-sm-offset-2 col-sm-10">
-
-                    <button id="button1id" type="submit" name="button1id" class="btn btn-success">Submit</button>
-                    <button id="button2id" name="button2id" class="btn btn-danger">Cancel</button>
-                </div>
-            </div>
-
-
-        }
-
-
-
-
+        </div>
     </div>
-    <!-- /.container -->
-
 </div>
+
+<script src="~/Scripts/knockout-3.2.0.js"></script>
+<script src="~/Scripts/MyScripts/PlayersInfo.js"></script>
+<script type="text/javascript">
+    $(function () {
+        var modelbox = function () {
+            $("#modalbox").modal("show");
+        };
+        $("#btnaddperson").on('click', modelbox);
+
+    });
+</script>

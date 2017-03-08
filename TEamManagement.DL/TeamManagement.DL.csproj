@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PlayerDetailsDL.cs" />
     <Compile Include="PersonalDetailsDL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

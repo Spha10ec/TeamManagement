@@ -26,5 +26,6 @@ namespace TeamManagement.BO
         }
     
         public virtual DbSet<PersonalDetail> PersonalDetails { get; set; }
+        public virtual DbSet<PlayerDetail> PlayerDetails { get; set; }
     }
 }

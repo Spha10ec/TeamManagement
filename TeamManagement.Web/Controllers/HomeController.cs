@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 using TeamManagement.BL;
 using TeamManagement.Web.Models;
@@ -12,8 +13,32 @@ namespace TeamManagement.Web.Controllers
     {
         public ActionResult Index()
         {
-           
             return View();
+        }
+        public JsonResult GetPersonInformations()
+        {
+            var listOfPlayers = new PlayerDetailsBL();
+            var playerDetailsList = new List<PlayerDetailsList>();
+
+            var playerDetails = listOfPlayers.GetALL();
+
+            foreach (var player in playerDetails)
+            {
+                playerDetailsList.Add
+                (
+                     new PlayerDetailsList
+                     {
+                         Id = player.id,
+                         DateOfBirth = player.DateOfBirth,
+                         FirstName = player.FirstName,
+                         LastName = player.LastName,
+                         Weight = player.Weight,
+                         Height = player.Height,
+                         Notes = player.Notes
+
+                     });
+            }
+            return Json(playerDetailsList, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public ActionResult Index(PersonalDetailsModel model)
