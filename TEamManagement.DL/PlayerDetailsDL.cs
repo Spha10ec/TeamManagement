@@ -19,7 +19,28 @@ namespace TEamManagement.DL
         }
         public IEnumerable<PlayerDetail> GetALL()
         {
-            return db.PlayerDetails.ToList();
+            try
+            {
+                return db.PlayerDetails.ToList();
+            }
+            catch(Exception ex)
+            {
+                var list = new List<PlayerDetail>();
+                list.Add
+                    (
+                            new PlayerDetail
+                            {
+                                FirstName = "Sipha",
+                                id = 1,
+                                DateOfBirth = DateTime.Now,
+                                Height = 41,
+                                Weight = 25,
+                                LastName = "Blowu",
+                                Notes = ex.InnerException.ToString(),
+
+                            });
+                return list;
+            }
         }
         public PlayerDetail GetByID(int Id)
         {

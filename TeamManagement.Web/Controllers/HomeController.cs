@@ -15,6 +15,11 @@ namespace TeamManagement.Web.Controllers
         {
             return View();
         }
+        public ActionResult Error()
+        {
+            string errorMessage = TempData["ErrorMessage"].ToString();
+            return View("Error",errorMessage);
+        }
         public JsonResult GetPersonInformations()
         {
             var listOfPlayers = new PlayerDetailsBL();

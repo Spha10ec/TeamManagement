@@ -85,7 +85,7 @@
             if (!IsUpdatable) {
 
                 $.ajax({
-                    url: "/Home/GetPersonInformations",
+                   // url: "/Home/GetPersonInformations",
                     type: "POST",
                     data: PersonInfo,
                     datatype: "json",
@@ -99,7 +99,7 @@
                 });
             } else {
                 $.ajax({
-                    url: "/Home/GetPersonInformations" + self.Id(),
+                 //   url: "/Home/GetPersonInformations" + self.Id(),
                     type: "PUT",
                     data: PersonInfo,
                     datatype: "json",
@@ -118,7 +118,7 @@
 
         self.delete = function (per) {
             $.ajax({
-                url: "/Home/GetPersonInformations" + per.Id,
+         //       url: "/Home/GetPersonInformations" + per.Id,
                 type: "DELETE",
             }).done(function (resp) {
                 loadInformation();

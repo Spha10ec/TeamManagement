@@ -46,14 +46,20 @@ namespace TeamManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
+               
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
+              
+              //  return new JavascriptResult { Script = "alert('Successfully registered');" };
                 if (user != null)
                 {
                     //await SignInAsync(user, model.RememberMe);
                     //return RedirectToLocal(returnUrl);
+                    
                     if (user.ConfirmedEmail == true)
                     {
+                        model.RememberMe = false;
                         await SignInAsync(user, model.RememberMe);
+                        
                         return RedirectToLocal(returnUrl);
                     }
                     else
@@ -255,14 +261,14 @@ namespace TeamManagement.Web.Controllers
 
         //
         // POST: /Account/ExternalLogin
-        [HttpPost]
-        [AllowAnonymous]
-        [ValidateAntiForgeryToken]
-        public ActionResult ExternalLogin(string provider, string returnUrl)
-        {
-            // Request a redirect to the external login provider
-            return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
-        }
+        //[HttpPost]
+        //[AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult ExternalLogin(string provider, string returnUrl)
+        //{
+        //    // Request a redirect to the external login provider
+        //    return new ChallengeResult(provider, Url.Action("ExternalLoginCallback", "Account", new { ReturnUrl = returnUrl }));
+        //}
 
         //
         // GET: /Account/ExternalLoginCallback
@@ -293,13 +299,13 @@ namespace TeamManagement.Web.Controllers
 
         //
         // POST: /Account/LinkLogin
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult LinkLogin(string provider)
-        {
-            // Request a redirect to the external login provider to link a login for the current user
-            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
-        }
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public ActionResult LinkLogin(string provider)
+        //{
+        //    // Request a redirect to the external login provider to link a login for the current user
+        //    return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
+        //}
 
         //
         // GET: /Account/LinkLoginCallback
@@ -359,7 +365,7 @@ namespace TeamManagement.Web.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-        [ValidateAntiForgeryToken]
+      //  [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
@@ -441,9 +447,14 @@ namespace TeamManagement.Web.Controllers
         {
             var user = User.Identity;
             ApplicationDbContext context = new ApplicationDbContext();
-            var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
-            var userRoleCollection = UserManager.GetRoles(user.GetUserId());
-            string userRole = userRoleCollection.ToString().ToLower();
+
+           
+           // return RedirectToAction("Index", "Home");
+          //  var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
+           
+           // var userRoleCollection = UserManager.GetRoles(user.GetUserId());
+           
+         //   string userRole = userRoleCollection.ToString().ToLower();
 
             if (Url.IsLocalUrl(returnUrl))
             {
@@ -451,14 +462,14 @@ namespace TeamManagement.Web.Controllers
             }
             else
             {
-                if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
-                {
+              //  if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+             //   {
                     return RedirectToAction("Index", "Home");
-                }
-                else
-                {
+            //    }
+            //    else
+             //   {
                     return RedirectToAction("Index", "Home");
-                }
+               // }
             }
         }
 

@@ -14,5 +14,9 @@ namespace TeamManagement.Web.Controllers
         {
             return View();
         }
+        public ActionResult Root()
+        {
+            return RedirectToAction("Login", "Account");
+        }
 	}
 }

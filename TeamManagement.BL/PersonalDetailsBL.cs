@@ -12,23 +12,22 @@ namespace TeamManagement.BL
     {
         private PersonalDetailsDL personalDetails;
 
-            public PersonalDetailsBL()
+        public PersonalDetailsBL()
         {
             personalDetails = new PersonalDetailsDL();
         }
 
-            public IEnumerable<PersonalDetail> GetALL()
+        public IEnumerable<PersonalDetail> GetALL()
         {
             return personalDetails.GetALL();
         }
-
-            public PersonalDetail GetByID(int Id)
+        public PersonalDetail GetByID(int Id)
         {
             return personalDetails.GetByID(Id);
         }
-            public string Insert(PersonalDetail url)
+        public string Insert(PersonalDetail url)
         {
-           return personalDetails.Insert(url);
+            return personalDetails.Insert(url);
         }
         public void Delete(int Id)
         {

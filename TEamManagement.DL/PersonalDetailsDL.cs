@@ -17,9 +17,20 @@ namespace TEamManagement.DL
         {
             db = new TeamManagementEntities();
         }
-        public IEnumerable<PersonalDetail> GetALL()
+        public IList<PersonalDetail> GetALL()
         {
-            return db.PersonalDetails.ToList();
+            var list = new List<PersonalDetail>();
+            list.Add
+                (
+                        new PersonalDetail
+                        {
+                            FirstName = "Sipha",
+                            id = 1,
+                            IdNumber = "20145886",
+                            Surname = "Blowu"
+
+                        });
+            return list;
         }
         public PersonalDetail GetByID(int Id)
         {

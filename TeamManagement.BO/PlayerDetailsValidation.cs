@@ -9,8 +9,8 @@ namespace TeamManagement.BO
 {
  
     public class PlayerDetailsValidation
-    {
-        
+    {    
+  
 
     }
     [MetadataType(typeof(PlayerDetailsValidation))]
