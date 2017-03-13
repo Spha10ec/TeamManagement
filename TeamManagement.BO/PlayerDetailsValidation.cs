@@ -11,7 +11,6 @@ namespace TeamManagement.BO
     public class PlayerDetailsValidation
     {    
   
-
     }
     [MetadataType(typeof(PlayerDetailsValidation))]
     public partial class tbl_PlayerDetails

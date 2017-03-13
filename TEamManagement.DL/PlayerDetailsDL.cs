@@ -23,7 +23,7 @@ namespace TEamManagement.DL
             {
                 return db.PlayerDetails.ToList();
             }
-            catch(Exception ex)
+             catch(Exception ex)
             {
                 var list = new List<PlayerDetail>();
                 list.Add

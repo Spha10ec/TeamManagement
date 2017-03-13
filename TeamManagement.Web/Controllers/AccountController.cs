@@ -46,20 +46,20 @@ namespace TeamManagement.Web.Controllers
         {
             if (ModelState.IsValid)
             {
-               
+
                 var user = await UserManager.FindAsync(model.UserName, model.Password);
-              
-              //  return new JavascriptResult { Script = "alert('Successfully registered');" };
+
+                //  return new JavascriptResult { Script = "alert('Successfully registered');" };
                 if (user != null)
                 {
                     //await SignInAsync(user, model.RememberMe);
                     //return RedirectToLocal(returnUrl);
-                    
+
                     if (user.ConfirmedEmail == true)
                     {
                         model.RememberMe = false;
                         await SignInAsync(user, model.RememberMe);
-                        
+
                         return RedirectToLocal(returnUrl);
                     }
                     else
@@ -86,9 +86,9 @@ namespace TeamManagement.Web.Controllers
         {
             var model = new RegisterViewModel();
             ApplicationDbContext context = new ApplicationDbContext();
-            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Player"))    
-                                    .ToList(), "Name", "Name");    
-           // ViewBag["RoleList"] = model.RoleList;
+            ViewBag.Name = new SelectList(context.Roles.Where(u => !u.Name.Contains("Player"))
+                                    .ToList(), "Name", "Name");
+            // ViewBag["RoleList"] = model.RoleList;
             return View(model);
         }
         [AllowAnonymous]
@@ -124,7 +124,7 @@ namespace TeamManagement.Web.Controllers
         //
         // POST: /Account/Register
         [HttpPost]
-        //    [Authorize]
+        // [Authorize]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
@@ -136,31 +136,31 @@ namespace TeamManagement.Web.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                   var roleAdded = await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
-                   if (roleAdded.Succeeded)
-                   {
-                       NetworkCredential cred = new NetworkCredential("siphabs@gmail.com", "Spha!@ec");
+                    var roleAdded = await this.UserManager.AddToRoleAsync(user.Id, model.UserRoles);
+                    if (roleAdded.Succeeded)
+                    {
+                        NetworkCredential cred = new NetworkCredential("siphabs@gmail.com", "Spha!@ec");
 
-                       MailMessage msg = new MailMessage();
-                       msg.To.Add("siphabs@gmail.com");
-                       msg.From = new MailAddress("nonreply@gmail.com");
+                        MailMessage msg = new MailMessage();
+                        msg.To.Add("siphabs@gmail.com");
+                        msg.From = new MailAddress("nonreply@gmail.com");
 
-                       msg.Subject = "Email confirmation";
-                       msg.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme));
-                       msg.IsBodyHtml = true;
-                       SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
+                        msg.Subject = "Email confirmation";
+                        msg.Body = string.Format("Dear {0}<BR/>Thank you for your registration, please click on the below link to complete your registration: <a href=\"{1}\" title=\"User Email Confirm\">{1}</a>", user.UserName, Url.Action("ConfirmEmail", "Account", new { Token = user.Id, Email = user.Email }, Request.Url.Scheme));
+                        msg.IsBodyHtml = true;
+                        SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
 
-                       client.Credentials = cred;
-                       client.EnableSsl = true;
-                       client.UseDefaultCredentials = false;
-                       // client.Send(msg);
-                       // await SignInAsync(user, isPersistent: false);
-                       // ViewBag.Email = user.Email;
-                   }
-                   else
-                   {
-                       AddErrors(result);
-                   }
+                        client.Credentials = cred;
+                        client.EnableSsl = true;
+                        client.UseDefaultCredentials = false;
+                        // client.Send(msg);
+                        // await SignInAsync(user, isPersistent: false);
+                        // ViewBag.Email = user.Email;
+                    }
+                    else
+                    {
+                        AddErrors(result);
+                    }
                     return RedirectToAction("Confirm", "Account", new { Email = user.Email });
                 }
                 else
@@ -365,7 +365,7 @@ namespace TeamManagement.Web.Controllers
         //
         // POST: /Account/LogOff
         [HttpPost]
-      //  [ValidateAntiForgeryToken]
+        //  [ValidateAntiForgeryToken]
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut();
@@ -448,13 +448,11 @@ namespace TeamManagement.Web.Controllers
             var user = User.Identity;
             ApplicationDbContext context = new ApplicationDbContext();
 
-           
-           // return RedirectToAction("Index", "Home");
-          //  var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
-           
-           // var userRoleCollection = UserManager.GetRoles(user.GetUserId());
-           
-         //   string userRole = userRoleCollection.ToString().ToLower();
+            var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
+
+            var userRoleCollection = UserManager.GetRoles(user.GetUserId());
+
+            string userRole = userRoleCollection.ToString().ToLower();
 
             if (Url.IsLocalUrl(returnUrl))
             {
@@ -462,14 +460,14 @@ namespace TeamManagement.Web.Controllers
             }
             else
             {
-              //  if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
-             //   {
+                if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                {
                     return RedirectToAction("Index", "Home");
-            //    }
-            //    else
-             //   {
-                    return RedirectToAction("Index", "Home");
-               // }
+                }
+                else
+                {
+                    return RedirectToAction("Index", "About");
+                }
             }
         }
 
