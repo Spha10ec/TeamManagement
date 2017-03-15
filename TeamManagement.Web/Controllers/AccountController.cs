@@ -458,9 +458,9 @@ namespace TeamManagement.Web.Controllers
             }
             else
             {
-                if (userRole.Equals("Admin", StringComparison.OrdinalIgnoreCase))
+                if (userRole.Equals("admin", StringComparison.OrdinalIgnoreCase))
                 {
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("AddFeatures", "Home");
                 }
                 else
                 {

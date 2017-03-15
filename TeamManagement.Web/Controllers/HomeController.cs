@@ -148,12 +148,15 @@ namespace TeamManagement.Web.Controllers
              var model = new TeamFeaturesModel();
 
              var teamDetails = teamNameBl.GetSingle();
-             model.Season = teamDetails.SeasonYear;
-             model.HomeTeam = teamDetails.TeamName;
-             model.TeamId = teamDetails.Id;
+             if (teamDetails != null)
+             {
+                 model.Season = teamDetails.SeasonYear;
+                 model.HomeTeam = teamDetails.TeamName;
+                 model.TeamId = teamDetails.Id;
 
-             Session["HomeTeam"] = model.HomeTeam;
-             Session["Season"] = model.Season;
+                 Session["HomeTeam"] = model.HomeTeam;
+                 Session["Season"] = model.Season;
+             }
              return View(model);
          }
          [HttpPost]
