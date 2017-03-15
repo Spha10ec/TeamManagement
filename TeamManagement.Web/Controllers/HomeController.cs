@@ -9,6 +9,7 @@ using TeamManagement.Web.Models;
 
 namespace TeamManagement.Web.Controllers
 {
+     [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
         [Authorize(Roles = "Admin")]
@@ -46,6 +47,30 @@ namespace TeamManagement.Web.Controllers
             }
             return Json(playerDetailsList, JsonRequestBehavior.AllowGet);
         }
+
+        public JsonResult GetFeaturesAndScores()
+        {
+            var playDetails = new PlayDetailsBL();
+            var model = new List<TeamFeaturesModel>();
+
+            var result = playDetails.GetALL();
+
+            foreach (var detail in result)
+            {
+                model.Add
+                (
+                     new TeamFeaturesModel
+                     {
+                         HomeTeam = Session["HomeTeam"].ToString(),
+                         PlayingAgainst = detail.TeamAgainst,
+                         Season = Session["Season"].ToString(),
+                         Venue = detail.Venue
+                         
+                     });
+            }
+            return Json(model, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult Index(PersonalDetailsModel model)
         {
@@ -114,5 +139,55 @@ namespace TeamManagement.Web.Controllers
 
             return View();
         }
+
+
+         [HttpGet]
+        public ActionResult AddFeatures ()
+         {
+             var teamNameBl = new TeamDetailsBL();
+             var model = new TeamFeaturesModel();
+
+             var teamDetails = teamNameBl.GetSingle();
+             model.Season = teamDetails.SeasonYear;
+             model.HomeTeam = teamDetails.TeamName;
+             model.TeamId = teamDetails.Id;
+
+             Session["HomeTeam"] = model.HomeTeam;
+             Session["Season"] = model.Season;
+             return View(model);
+         }
+         [HttpPost]
+         public ActionResult AddFeatures(TeamFeaturesModel model)
+         {
+             if (ModelState.IsValid)
+             {
+                 var addFeature = new PlayDetailsBL();
+                 var addfeatureModel = new TeamManagement.BO.PlayDetail
+                 {
+                    Season = model.Season,
+                    TeamAgainst = model.PlayingAgainst,
+                    Venue = model.Venue,
+                    TeamId = model.TeamId
+
+                 };
+                 string message = addFeature.Insert(addfeatureModel);
+
+                 if (message.Equals(String.Empty))
+                 {
+                     model.successMessage = true;
+                     model.errorMessage = "Team Successfully added";
+                     return View(model);
+                 }
+                 else
+                 {
+                     model.successMessage = false;
+                     model.errorMessage = message;
+                     return View(model);
+                 }
+             }
+
+             return View();
+         }
     }
+
 }

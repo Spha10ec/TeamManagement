@@ -194,6 +194,7 @@
     </Compile>
     <Compile Include="Models\AccountViewModel.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\TeamFeaturesModel.cs" />
     <Compile Include="Models\TeamModel.cs" />
     <Compile Include="Models\PlayerDetailsModel.cs" />
     <Compile Include="Models\PersonalDetailsModel.cs" />
@@ -275,6 +276,7 @@
     <Content Include="Views\Role\Create.cshtml" />
     <Content Include="Views\Home\Error.cshtml" />
     <Content Include="Views\Home\AddTeam.cshtml" />
+    <Content Include="Views\Home\AddFeatures.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

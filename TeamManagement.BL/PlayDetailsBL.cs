@@ -10,11 +10,11 @@ namespace TeamManagement.BL
 {
     public class PlayDetailsBL
     {
-        private PlayDetailsBL playDetails;
+        private PlayDetailsDL playDetails;
 
         public PlayDetailsBL()
         {
-            playDetails = new PlayDetailsBL();
+            playDetails = new PlayDetailsDL();
         }
 
         public IEnumerable<PlayDetail> GetALL()

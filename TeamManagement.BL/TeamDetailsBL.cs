@@ -21,6 +21,10 @@ namespace TeamManagement.BL
         {
             return teamDetails.GetALL();
         }
+        public Team GetSingle()
+        {
+            return teamDetails.GetSingle();
+        }
 
         public Team GetByID(int Id)
         {

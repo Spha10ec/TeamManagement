@@ -22,6 +22,11 @@ namespace TEamManagement.DL
             return db.Teams.ToList();
            
         }
+        public Team GetSingle()
+        {
+            return db.Teams.FirstOrDefault();
+
+        }
         public Team GetByID(int Id)
         {
             return db.Teams.Find(Id);

@@ -39,8 +39,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="TeamDetailsBL.cs" />
     <Compile Include="PlayDetailsBL.cs" />
+    <Compile Include="TeamDetailsBL.cs" />
     <Compile Include="PlayerDetailsBL.cs" />
     <Compile Include="PersonalDetailsBL.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -1,0 +1,122 @@
+﻿@model TeamManagement.Web.Models.TeamFeaturesModel
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="~/Scripts/gijgo.js"></script>
+<link href="~/Content/gijgo.css" rel="stylesheet" />
+<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+@Html.Partial("_Slides")
+<div class="section">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-8">
+                <form class="form-inline">
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="txtQuery" placeholder="Search...">
+                    </div>
+                    <button id="btnSearch" type="button" class="btn btn-default">Search</button>
+                    <button id="btnClear" type="button" class="btn btn-default">Clear</button>
+                </form>
+            </div>
+            <div class="col-xs-4">
+                <button id="btnAdd" type="button" class="btn btn-default pull-right">Add A New Feature</button>
+            </div>
+        </div>
+        <div class="row" style="margin-top: 10px">
+            <div class="col-xs-12">
+                <table id="grid"></table>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dialog" style="display: none">
+    <input type="hidden" id="id" />
+
+    @using (Html.BeginForm("AddFeatures", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="addFeatures" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.TeamId)
+        @Html.HiddenFor(m => m.Season)
+        @Html.HiddenFor(m => m.HomeTeam)
+        <div class="form-group">
+            @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Venue, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
+        </div>
+        <button type="button" id="btnSave" class="btn btn-default">Add</button>
+        <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
+    }
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var grid, dialog;
+        grid = $('#grid').grid({
+            dataSource: '../Home/GetFeaturesAndScores',
+            uiLibrary: 'bootstrap',
+            columns: [
+                { field: 'id', width: 32 },
+                { field: 'HomeTeam', sortable: true },
+                 { title: 'VS', html: "VS", width: 34},
+                { field: 'PlayingAgainst', title: 'Team playing with', sortable: true },
+                { field: 'Season', sortable: true },
+                { field: 'Venue', title: 'Venue', sortable: true },
+                { title: '', field: 'Edit', width: 34, type: 'icon', icon: 'glyphicon-pencil', tooltip: 'Edit', events: { 'click': Edit } },
+                { title: '', field: 'Delete', width: 34, type: 'icon', icon: 'glyphicon-remove', tooltip: 'Delete', events: { 'click': Delete } }
+            ],
+            pager: { limit: 5, sizes: [2, 5, 10, 20] }
+        });
+        dialog = $('#dialog').dialog({
+            uiLibrary: 'bootstrap',
+            title: 'Add/Edit Record',
+            autoOpen: false,
+            resizable: false,
+            modal: true
+        });
+        function Edit(e) {
+            $('#id').val(e.data.id);
+            $('#HomeTeam').val(e.data.record.HomeTeam);
+            $('#PlayingAgainst').val(e.data.record.PlayingAgainst);
+            $('#Season').val(e.data.record.Season);
+            $('#Venue').val(e.data.record.Venue);
+            $('#dialog').dialog('open');
+        }
+        function Delete(e) {
+            if (confirm('Are you sure?')) {
+                alert('TODO: Write code that delete the data on the server.');
+                grid.reload(); //load the new data from the server after the deletion
+            }
+        }
+        function Save() {
+            if ($('#ID').val()) {
+                var id = parseInt($('#ID').val());
+                $("#addFeatures").submit();
+                grid.updateRow(id, { 'id': id, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val() });
+            } else {
+                $("#addFeatures").submit();
+                grid.addRow({ 'id': grid.count(true) + 1, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val() });
+            }
+            dialog.close();
+        }
+        $('#btnAdd').on('click', function () {
+            $('#id').val('');
+            $('#PlayingAgainst').val('');
+            $('#Venue').val('');
+            $('#dialog').dialog('open');
+        });
+        $('#btnSave').on('click', Save);
+        $('#btnCancel').on('click', function () {
+            dialog.close();
+        });
+        $('#btnSearch').on('click', function () {
+            grid.reload({ name: $('#txtQuery').val() });
+        });
+        $('#btnClear').on('click', function () {
+            $('#txtQuery').val('');
+            grid.reload({ name: '' });
+        });
+    });
+</script>

@@ -5,15 +5,28 @@
     {
         @Html.AntiForgeryToken()
 
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
-            </li>
-            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
-            <li id="addTeam">
-                @Html.ActionLink("Team Management", "AddTeam", "Home")
-            </li>
-        </ul>
+        <ul class="nav  navbar-nav nav-pills navbar-right">
+        <li>
+            @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Manage", "Account", routeValues: null, htmlAttributes: new { title = "Manage" })
+        </li>
+        <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+
+        <li class="dropdown">
+            <a class="dropdown-toggle"
+               data-toggle="dropdown"
+               href="#">
+                Team Management
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+               <li> @Html.ActionLink("Add A New Team", "AddTeam", "Home")</li>
+                <li class="divider"></li>
+                <li>@Html.ActionLink("Add features", "AddFeatures", "Home")</li>
+                <li class="divider"></li>
+                <li>@Html.ActionLink("Update scores", "UpdateScores", "Home")</li>
+            </ul>
+        </li>
+    </ul>
     }
 }
 else
