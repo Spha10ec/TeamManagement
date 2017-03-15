@@ -14,6 +14,19 @@
           <Property Name="Surname" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="IdNumber" Type="nvarchar" MaxLength="20" Nullable="false" />
         </EntityType>
+        <EntityType Name="PlayDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamAgainst" Type="nvarchar" MaxLength="20" Nullable="false" />
+          <Property Name="FixtureDate" Type="date" />
+          <Property Name="Venue" Type="nvarchar" MaxLength="50" />
+          <Property Name="HomeScore" Type="int" Nullable="false" />
+          <Property Name="AwayScore" Type="int" Nullable="false" />
+          <Property Name="TeamId" Type="int" />
+          <Property Name="Season" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="PlayerDetails">
@@ -33,8 +46,20 @@ warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a 
           <Property Name="Height" Type="decimal" Precision="5" Scale="2" Nullable="false" />
           <Property Name="Notes" Type="nvarchar" MaxLength="200" />
         </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="TeamName" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="SeasonYear" Type="nvarchar" MaxLength="20" />
+          <Property Name="SportCode" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="Motto" Type="nvarchar" MaxLength="50" />
+        </EntityType>
         <EntityContainer Name="TeamManagementModelStoreContainer">
           <EntitySet Name="PersonalDetails" EntityType="Self.PersonalDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PlayDetails" EntityType="Self.PlayDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Team" EntityType="Self.Team" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="PlayerDetails" EntityType="Self.PlayerDetails" store:Type="Tables" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [PlayerDetails].[id] AS [id], 
@@ -63,6 +88,8 @@ warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a 
         <EntityContainer Name="TeamManagementEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="PersonalDetails" EntityType="Self.PersonalDetail" />
           <EntitySet Name="PlayerDetails" EntityType="TeamManagementModel.PlayerDetail" />
+          <EntitySet Name="PlayDetails" EntityType="TeamManagementModel.PlayDetail" />
+          <EntitySet Name="Teams" EntityType="TeamManagementModel.Team" />
         </EntityContainer>
         <EntityType Name="PlayerDetail">
           <Key>
@@ -80,6 +107,29 @@ warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a 
           <Property Name="Weight" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
           <Property Name="Height" Type="Decimal" Nullable="false" Precision="5" Scale="2" />
           <Property Name="Notes" Type="String" MaxLength="200" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="PlayDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamAgainst" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="FixtureDate" Type="DateTime" Precision="0" />
+          <Property Name="Venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="HomeScore" Type="Int32" Nullable="false" />
+          <Property Name="AwayScore" Type="Int32" Nullable="false" />
+          <Property Name="TeamId" Type="Int32" />
+          <Property Name="Season" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Team">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeamName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="SeasonYear" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="SportCode" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="Motto" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -107,6 +157,31 @@ warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a 
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PlayDetails">
+            <EntityTypeMapping TypeName="TeamManagementModel.PlayDetail">
+              <MappingFragment StoreEntitySet="PlayDetails">
+                <ScalarProperty Name="Season" ColumnName="Season" />
+                <ScalarProperty Name="TeamId" ColumnName="TeamId" />
+                <ScalarProperty Name="AwayScore" ColumnName="AwayScore" />
+                <ScalarProperty Name="HomeScore" ColumnName="HomeScore" />
+                <ScalarProperty Name="Venue" ColumnName="Venue" />
+                <ScalarProperty Name="FixtureDate" ColumnName="FixtureDate" />
+                <ScalarProperty Name="TeamAgainst" ColumnName="TeamAgainst" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Teams">
+            <EntityTypeMapping TypeName="TeamManagementModel.Team">
+              <MappingFragment StoreEntitySet="Team">
+                <ScalarProperty Name="Motto" ColumnName="Motto" />
+                <ScalarProperty Name="SportCode" ColumnName="SportCode" />
+                <ScalarProperty Name="SeasonYear" ColumnName="SeasonYear" />
+                <ScalarProperty Name="TeamName" ColumnName="TeamName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

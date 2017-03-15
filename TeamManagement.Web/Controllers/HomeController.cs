@@ -19,7 +19,7 @@ namespace TeamManagement.Web.Controllers
         public ActionResult Error()
         {
             string errorMessage = TempData["ErrorMessage"].ToString();
-            return View("Error",errorMessage);
+            return View("Error", errorMessage);
         }
         public JsonResult GetPersonInformations()
         {
@@ -49,7 +49,7 @@ namespace TeamManagement.Web.Controllers
         [HttpPost]
         public ActionResult Index(PersonalDetailsModel model)
         {
-            if(ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 var insertUser = new PersonalDetailsBL();
                 var insertUserModel = new TeamManagement.BO.PersonalDetail
@@ -58,9 +58,9 @@ namespace TeamManagement.Web.Controllers
                     IdNumber = model.IdNumber,
                     Surname = model.LastName
                 };
-              string message = insertUser.Insert(insertUserModel);
-             
-                if(message.Equals(String.Empty))
+                string message = insertUser.Insert(insertUserModel);
+
+                if (message.Equals(String.Empty))
                 {
                     model.successMessage = true;
                     model.errorMessage = "Record Successfully updated";
@@ -69,10 +69,49 @@ namespace TeamManagement.Web.Controllers
                 else
                 {
                     model.successMessage = false;
-                    model.errorMessage =message;
+                    model.errorMessage = message;
                     return View(model);
                 }
             }
+            return View();
+        }
+
+         [Authorize(Roles = "Admin")]
+        public ActionResult AddTeam()
+        {
+            return View();
+        }
+
+         [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult AddTeam(TeamModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var addUseraddANewTeam = new TeamDetailsBL();
+                var addUseraddANewTeamModel = new TeamManagement.BO.Team
+                {
+                    Motto = model.Motto,
+                    SeasonYear = model.SeasonYear,
+                    SportCode = model.SportCode,
+                    TeamName = model.TeamName
+                };
+                string message = addUseraddANewTeam.Insert(addUseraddANewTeamModel);
+
+                if (message.Equals(String.Empty))
+                {
+                    model.successMessage = true;
+                    model.errorMessage = "Team Successfully added";
+                    return View(model);
+                }
+                else
+                {
+                    model.successMessage = false;
+                    model.errorMessage = message;
+                    return View(model);
+                }
+            }
+
             return View();
         }
     }

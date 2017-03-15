@@ -52,6 +52,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TeamDetailsValidation.cs" />
+    <Compile Include="PlayDetailsValidation.cs" />
+    <Compile Include="PlayDetail.cs">
+      <DependentUpon>TeamManagementEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="PlayerDetailsValidation.cs" />
     <Compile Include="PersonalDetailsValidation.cs" />
     <Compile Include="PersonalDetail.cs">
@@ -61,6 +66,9 @@
       <DependentUpon>TeamManagementEntities.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Team.cs">
+      <DependentUpon>TeamManagementEntities.tt</DependentUpon>
+    </Compile>
     <Compile Include="TeamManagementEntities.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
