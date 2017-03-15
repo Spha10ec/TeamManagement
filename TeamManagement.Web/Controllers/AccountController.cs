@@ -59,7 +59,8 @@ namespace TeamManagement.Web.Controllers
                     {
                         model.RememberMe = false;
                         await SignInAsync(user, model.RememberMe);
-
+                        Session["username"] = user.Id;
+                        var test = User.Identity;
                         return RedirectToLocal(returnUrl);
                     }
                     else
@@ -107,7 +108,7 @@ namespace TeamManagement.Web.Controllers
                 {
                     user.ConfirmedEmail = true;
                     await UserManager.UpdateAsync(user);
-                    await SignInAsync(user, isPersistent: false);
+                    await SignInAsync(user, isPersistent: true);
                     return RedirectToAction("Index", "Home", new { ConfirmedEmail = user.Email });
                 }
                 else
@@ -297,15 +298,15 @@ namespace TeamManagement.Web.Controllers
             }
         }
 
-        //
+        
         // POST: /Account/LinkLogin
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult LinkLogin(string provider)
-        //{
-        //    // Request a redirect to the external login provider to link a login for the current user
-        //    return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LinkLogin(string provider)
+        {
+            // Request a redirect to the external login provider to link a login for the current user
+            return new ChallengeResult(provider, Url.Action("LinkLoginCallback", "Account"), User.Identity.GetUserId());
+        }
 
         //
         // GET: /Account/LinkLoginCallback
@@ -445,14 +446,11 @@ namespace TeamManagement.Web.Controllers
 
         private ActionResult RedirectToLocal(string returnUrl)
         {
-            var user = User.Identity;
-            ApplicationDbContext context = new ApplicationDbContext();
 
-            var UserManager = new UserManager<AppUser>(new UserStore<AppUser>(context));
+            string userId = Session["username"].ToString();
+            var userRoleCollection = UserManager.GetRoles(userId);
 
-            var userRoleCollection = UserManager.GetRoles(user.GetUserId());
-
-            string userRole = userRoleCollection.ToString().ToLower();
+            string userRole = userRoleCollection.FirstOrDefault().ToLower();
 
             if (Url.IsLocalUrl(returnUrl))
             {

@@ -16,6 +16,7 @@ namespace TeamManagement.Web
                 AuthenticationType = DefaultAuthenticationTypes.ApplicationCookie,
                 LoginPath = new PathString("/Account/Login")
             });
+            app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
             // Use a cookie to temporarily store information about a user logging in with a third party login provider
            // app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
