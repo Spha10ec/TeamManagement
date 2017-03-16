@@ -5,7 +5,6 @@ using System.Text;
 using System.Web.Mvc;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using TeamManagement.UI;
-using TeamManagement.UI.Controllers;
 
 namespace TeamManagement.UI.Tests.Controllers
 {
