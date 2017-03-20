@@ -64,8 +64,11 @@ namespace TeamManagement.Web.Controllers
                          HomeTeam = Session["HomeTeam"].ToString(),
                          PlayingAgainst = detail.TeamAgainst,
                          Season = Session["Season"].ToString(),
-                         Venue = detail.Venue
+                         Venue = detail.Venue,
                          
+                         AwayTeamScore = detail.AwayScore.ToString(),
+                         Date = (System.DateTime)detail.FixtureDate,
+                         HomeScore = detail.HomeScore.ToString()                        
                      });
             }
             return Json(model, JsonRequestBehavior.AllowGet);

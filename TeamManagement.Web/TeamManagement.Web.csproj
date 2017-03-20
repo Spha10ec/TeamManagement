@@ -214,6 +214,10 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Images\pic1.jpg" />
+    <Content Include="Images\pic2.jpg" />
+    <Content Include="Images\pic24.jpg" />
+    <Content Include="Images\pic3.jpg" />
     <Content Include="Images\slide1.jpg" />
     <Content Include="Images\slide2.jpg" />
     <Content Include="Images\slide3.jpg" />

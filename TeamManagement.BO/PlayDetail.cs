@@ -18,8 +18,8 @@ namespace TeamManagement.BO
         public string TeamAgainst { get; set; }
         public Nullable<System.DateTime> FixtureDate { get; set; }
         public string Venue { get; set; }
-        public int HomeScore { get; set; }
-        public int AwayScore { get; set; }
+        public string HomeScore { get; set; }
+        public string AwayScore { get; set; }
         public Nullable<int> TeamId { get; set; }
         public string Season { get; set; }
     }

@@ -30,5 +30,10 @@ namespace TeamManagement.Web.Models
         [DisplayName("Season")]
         public string Season { get; set; }
 
+        [DisplayName("Match Date")]
+        public DateTime Date { get; set; }
+        
+        public string HomeScore { get; set; }
+        public string AwayTeamScore { get; set; }
     }
 }

@@ -50,7 +50,40 @@
         <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
     }
 </div>
+<div id="updateScores" style="display: none">
+    <input type="hidden" id="id" />
 
+    @using (Html.BeginForm("UpdateScores", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addFeatures" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(m => m.TeamId)
+        @Html.HiddenFor(m => m.Season)
+        @Html.HiddenFor(m => m.HomeTeam)
+        <div class="form-group">
+            @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.Venue, new { @class = "col-md-2 control-label" })
+            @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
+        </div>
+         <div class="form-group">
+          <label> @Model.HomeTeam</label>
+            @Html.TextBoxFor(m => m.HomeScore, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.HomeScore, null, new { @class = "errorMessage" })
+        </div>
+         <div class="form-group">
+          <label> @Model.PlayingAgainst</label>
+            @Html.TextBoxFor(m => m.AwayTeamScore, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+            @Html.ValidationMessageFor(m => m.AwayTeamScore, null, new { @class = "errorMessage" })
+        </div>
+        <button type="button" id="btnSave" class="btn btn-default">Add</button>
+        <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
+    }
+</div>
+<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         var grid, dialog;
@@ -58,12 +91,14 @@
             dataSource: '../Home/GetFeaturesAndScores',
             uiLibrary: 'bootstrap',
             columns: [
-                { field: 'id', width: 32 },
+                { field: 'id', hidden: true },
+                   { field: 'Date', sortable: true, type: 'date', format: 'dd/mm/yyyy' },
                 { field: 'HomeTeam', sortable: true },
-                 { title: 'VS', html: "VS", width: 34},
+                 { field: 'HomeScore', title: '', width: 70 },
                 { field: 'PlayingAgainst', title: 'Team playing with', sortable: true },
-                { field: 'Season', sortable: true },
+                 { field: 'AwayTeamScore', title: '', width: 70 },
                 { field: 'Venue', title: 'Venue', sortable: true },
+                { width: 70, tmpl: '<a href="#">Scores</a>', align: 'center', events: { 'click': UpdateScores }},
                 { title: '', field: 'Edit', width: 34, type: 'icon', icon: 'glyphicon-pencil', tooltip: 'Edit', events: { 'click': Edit } },
                 { title: '', field: 'Delete', width: 34, type: 'icon', icon: 'glyphicon-remove', tooltip: 'Delete', events: { 'click': Delete } }
             ],
@@ -76,13 +111,28 @@
             resizable: false,
             modal: true
         });
+        updateScores = $('#updateScores').dialog({
+            uiLibrary: 'bootstrap',
+            title: 'Results',
+            autoOpen: false,
+            resizable: false,
+            modal: true
+        });
+        function UpdateScores(e) {
+            $('#id').val(e.data.id);
+            $('#HomeTeam').val(e.data.record.HomeTeam);
+            $('#PlayingAgainst').val(e.data.record.PlayingAgainst);
+            $('#Season').val(e.data.record.Season);
+            $('#Venue').val(e.data.record.Venue);
+            $('#updateScores').dialog('open');
+        }
         function Edit(e) {
             $('#id').val(e.data.id);
             $('#HomeTeam').val(e.data.record.HomeTeam);
             $('#PlayingAgainst').val(e.data.record.PlayingAgainst);
             $('#Season').val(e.data.record.Season);
             $('#Venue').val(e.data.record.Venue);
-            $('#dialog').dialog('open');
+            $('#updateScores').dialog('open');
         }
         function Delete(e) {
             if (confirm('Are you sure?')) {
