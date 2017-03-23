@@ -7,7 +7,7 @@ using TeamManagement.Web.Models;
 
 namespace TeamManagement.Web.Controllers
 {
-  //  [Authorize(Roles="Admin")]
+    [Authorize(Roles="Admin")]
     public class PlayerController : Controller
     {
         //

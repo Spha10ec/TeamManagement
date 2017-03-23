@@ -24,18 +24,20 @@ namespace TeamManagement.Web.Models
         public int Id { get; set; }
 
         [DisplayName("First Name")]
-        [Required]
+        [Required(ErrorMessage = "First name is required")]
         public string FirstName { get; set; }
 
         [DisplayName("Surname")]
-        [Required]
+        [Required(ErrorMessage = "Surname is required")]
         public string Surname { get; set; }
 
         [DisplayName("Date Of Birth")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        [Required(ErrorMessage = "Date Of Birth is required")]
         public  DateTime DateOfBirth { get; set; }
 
         [DisplayName("ID Number")]
+        [Required(ErrorMessage = "ID Number is required")]
         public string IDNo { get; set; }
 
     }
@@ -85,7 +87,7 @@ namespace TeamManagement.Web.Models
         public string PostalAddressLine2 { get; set; }
 
         [DisplayName("Address Line 3")]
-        public string PostalLine3 { get; set; }
+        public string PostalAddressLine3 { get; set; }
 
         [DisplayName("Address Line 4")]
         public string PostalAddressLine4 { get; set; }

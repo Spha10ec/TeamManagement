@@ -1,11 +1,9 @@
 ﻿<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
 @model TeamManagement.Web.Models.PersonalDetails
-@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id= "personal_details" }))
 {
     @Html.AntiForgeryToken()
-    @*<div class="col-md-12 panel-heading" >
-            <h3 class="panel-title">Please sign in</h3>
-        </div>*@
+  
     @Html.ValidationSummary(true)
     <div class="form-group">
         <div class="col-sm-3">
@@ -13,8 +11,8 @@
         </div>
 
         <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.FirstName)
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.FirstName, null, new { @class = "errorMessage" })
         </div>
     </div>
     <div class="form-group">
@@ -23,22 +21,22 @@
         </div>
 
         <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.Surname)
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.Surname, null, new { @class = "errorMessage" })
         </div>
     </div>
     <div class="form-group">
         <div class="col-sm-3">           
-                @Html.LabelFor(m => m.DateOfBirth, new { @class = "control-label" })              
+                @Html.LabelFor(m => m.DateOfBirth, new { @class = "control-label", @required = "required" })              
             </div>
 
         <div class="col-sm-3">
             <div class='input-group date' id='datetimepicker2'>
-                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control" })
+                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control", @required = "required" })
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
-                @Html.ValidationMessageFor(m => m.DateOfBirth)
+                @Html.ValidationMessageFor(m => m.DateOfBirth, null, new { @class = "errorMessage" })
             </div>
             </div>
     </div>
@@ -48,8 +46,8 @@
         </div>
 
         <div class="col-sm-3">
-            @Html.TextBoxFor(m => m.IDNo, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.IDNo)
+            @Html.TextBoxFor(m => m.IDNo, new { @class = "form-control", @required = "required" })
+            @Html.ValidationMessageFor(m => m.IDNo,null, new { @class = "errorMessage"})
         </div>
     </div>
 }

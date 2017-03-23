@@ -51,9 +51,9 @@
                     }
                 </div>
                 <div class="tab-pane" id="tab2">
-                    <p>
-                        <input type='text' name='name' id='name' placeholder='Enter Your Name'>
-                    </p>
+                    @{
+                        Html.RenderPartial("_ContactDetails", new TeamManagement.Web.Models.ContactDetails());
+                    }
                 </div>
                 <div class="tab-pane" id="tab3">
                     3
@@ -86,13 +86,15 @@
     $(document).ready(function () {
         $('#rootwizard').bootstrapWizard({
             onNext: function (tab, navigation, index) {
-                if (index == 2) {
-                    // Make sure we entered the name
-                    if (!$('#name').val()) {
-                        alert('You must enter your name');
-                        $('#name').focus();
-                        return false;
-                    }
+                if (index == 1) {                  
+                   // var $form = $("#personal_details");
+                  //  $("#personal_details").validate();
+                  //  if ($form.valid()) {
+                        return true;
+                  //  }
+                 //   else {
+                      //  return false;
+                  //  }
                 }
 
                 // Set the name for the next tab

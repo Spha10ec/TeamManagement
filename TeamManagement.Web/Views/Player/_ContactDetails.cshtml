@@ -1,0 +1,146 @@
+﻿@model TeamManagement.Web.Models.ContactDetails
+<script src="~/Views/Player/contactDetails.js"></script>
+@using (Html.BeginForm("SaveContactDetails", "Player", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "personal_details" }))
+{
+
+    @Html.AntiForgeryToken()
+
+    @Html.ValidationSummary(true)
+    <div class="col-xs-6">
+        <div class="form-group">
+            <div class="col-xs-6">
+                <h4><strong>Physical Address</strong></h4>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-6">
+                <input type="checkbox" hidden />
+            </div>
+        </div>
+        <br />
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PhysicalAddressLine1, new { @class = "control-label" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PhysicalAddressLine1, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.PhysicalAddressLine1, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PhysicalAddressLine2, new { @class = "control-label" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PhysicalAddressLine2, new { @class = "form-control"  })
+                @Html.ValidationMessageFor(m => m.PhysicalAddressLine2, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PhysicalAddressLine3, new { @class = "control-label" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PhysicalAddressLine3, new { @class = "form-control"})
+
+                @Html.ValidationMessageFor(m => m.PhysicalAddressLine3, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PhysicalAddressLine4, new { @class = "control-label"})
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PhysicalAddressLine4, new { @class = "form-control"})
+
+                @Html.ValidationMessageFor(m => m.PhysicalAddressLine4, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PhysicalPostalCode, new { @class = "control-label", @required = "required" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PhysicalPostalCode, new { @class = "form-control", @required = "required" })
+
+                @Html.ValidationMessageFor(m => m.PhysicalPostalCode, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="col-xs-6">
+        <div class="form-group">
+            <div class="col-xs-6">
+                <h4><strong>Postal Address</strong></h4>
+            </div>
+        </div>
+        <div class="form-group">
+
+
+            <div class="col-xs-6">
+                @Html.CheckBoxFor(m => m.ISAddressTheSame, new { @id = "ISAddressTheSame" }) @Html.LabelFor(m => m.ISAddressTheSame)
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PostalAddressLine1, new { @class = "control-label" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PostalAddressLine1, new { @class = "form-control"})
+                @Html.ValidationMessageFor(m => m.PostalAddressLine1, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PostalAddressLine2, new { @class = "control-label" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PostalAddressLine2, new { @class = "form-control"})
+                @Html.ValidationMessageFor(m => m.PostalAddressLine2, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PostalAddressLine3, new { @class = "control-label"})
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PostalAddressLine3, new { @class = "form-control"})
+
+                @Html.ValidationMessageFor(m => m.PostalAddressLine3, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PostalAddressLine4, new { @class = "control-label"})
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PostalAddressLine4, new { @class = "form-control" })
+
+                @Html.ValidationMessageFor(m => m.PostalAddressLine4, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PostalPostalCode, new { @class = "control-label", @required = "required" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.TextBoxFor(m => m.PostalPostalCode, new { @class = "form-control", @required = "required" })
+
+                @Html.ValidationMessageFor(m => m.PostalPostalCode, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+    </div>
+}
+
