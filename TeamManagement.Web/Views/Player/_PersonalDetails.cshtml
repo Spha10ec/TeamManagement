@@ -1,0 +1,68 @@
+﻿<link href="~/Content/bootstrap-datetimepicker.css" rel="stylesheet" />
+@model TeamManagement.Web.Models.PersonalDetails
+@using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    @*<div class="col-md-12 panel-heading" >
+            <h3 class="panel-title">Please sign in</h3>
+        </div>*@
+    @Html.ValidationSummary(true)
+    <div class="form-group">
+        <div class="col-sm-3">
+            @Html.LabelFor(m => m.FirstName, new { @class = "control-label" })
+        </div>
+
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            @Html.LabelFor(m => m.Surname, new { @class = "control-label" })
+        </div>
+
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.Surname, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Surname)
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">           
+                @Html.LabelFor(m => m.DateOfBirth, new { @class = "control-label" })              
+            </div>
+
+        <div class="col-sm-3">
+            <div class='input-group date' id='datetimepicker2'>
+                @Html.TextBoxFor(m => m.DateOfBirth, new { @class = "form-control" })
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+                @Html.ValidationMessageFor(m => m.DateOfBirth)
+            </div>
+            </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-3">
+            @Html.LabelFor(m => m.IDNo, new { @class = "control-label" })
+        </div>
+
+        <div class="col-sm-3">
+            @Html.TextBoxFor(m => m.IDNo, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.IDNo)
+        </div>
+    </div>
+}
+
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/transition.js"></script>
+<script src="~/Scripts/collapse.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
+<script type="text/javascript">
+    $(function () {
+        $('#datetimepicker2').datetimepicker({
+            format: 'DD/MM/YYYY',
+            locale: 'ru'
+        });
+    });
+</script>

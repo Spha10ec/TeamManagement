@@ -29,6 +29,19 @@ namespace TeamManagement.BO
     [MetadataType(typeof(PlayDetailsValidation))]
     public partial class tbl_PlayDetails
     {
+        [Required]
+        [UniqueId]
+        public int Id { get; set; }
 
+        [Required]
+        public string TeamDetails { get; set; }
+
+        public string FixtureDate { get; set; }
+
+        public string HomeScore { get; set; }
+
+        public string AwayScore { get; set; }
+
+        public string TeamId { get; set; }
     }
 }

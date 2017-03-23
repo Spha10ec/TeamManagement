@@ -14,7 +14,9 @@ namespace TeamManagement.Web.Models
         public bool successMessage { get; set; }
 
         public int TeamId { get; set; }
-        public int Id { get; set; }
+   //     public int id { get; set; }
+
+        public string id { get; set; }
 
         [DisplayName("My Team")]
         [Required]

@@ -1,0 +1,20 @@
+﻿@model TeamManagement.Web.Models.TeamFeaturesModel
+@using (Html.BeginForm("AddFeatures", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addFeatures" }))
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(m => m.TeamId)
+    @Html.HiddenFor(m => m.Season)
+    @Html.HiddenFor(m => m.HomeTeam)
+    <div class="form-group">
+        @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+        @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Venue, new { @class = "col-md-2 control-label" })
+        @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+        @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
+    </div>
+    <button type="button" id="btnSave" class="btn btn-default">Add</button>
+    <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
+}

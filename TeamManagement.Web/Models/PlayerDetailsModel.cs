@@ -13,10 +13,13 @@ namespace TeamManagement.Web.Models
 
         public bool successMessage { get; set; }
 
-        public List<PlayerDetailsList> playerDetailsList { get; set; }
-      
+        public bool displayErrorBlock { get; set; }
+
+        public PersonalDetails personalDetails { get; set; }
+        public ContactDetails contactDetails { get; set; }
+
     }
-    public class PlayerDetailsList
+    public class PersonalDetails
     {
         public int Id { get; set; }
 
@@ -24,20 +27,73 @@ namespace TeamManagement.Web.Models
         [Required]
         public string FirstName { get; set; }
 
-        [DisplayName("Last Name")]
+        [DisplayName("Surname")]
         [Required]
-        public string LastName { get; set; }
+        public string Surname { get; set; }
 
         [DisplayName("Date Of Birth")]
-        public DateTime DateOfBirth { get; set; }
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:MM/dd/yyyy}")]
+        public  DateTime DateOfBirth { get; set; }
 
-        [DisplayName("Weight")]
-        public decimal Weight { get; set; }
+        [DisplayName("ID Number")]
+        public string IDNo { get; set; }
 
-        [DisplayName("Height")]
-        public decimal Height { get; set; }
+    }
+    public class ContactDetails
+    {
+        public int Id { get; set; }
 
-        [DisplayName("Notes")]
-        public string Notes { get; set; }
+        [DisplayName("Cell Number")]
+        public string Cell { get; set; }
+
+
+        [DisplayName("Home Number")]
+        public string HOmeNumber { get; set; }
+
+        [DisplayName("Work Number")]
+        public string WorkNumber { get; set; }
+
+        [DisplayName("Fax Number")]
+        public string FaxNumber { get; set; }
+
+        [DisplayName("Address Line 1")]
+        [Required]
+        public string PhysicalAddressLine1 { get; set; }
+
+        [DisplayName("Address Line 2")]
+        [Required]
+        public string PhysicalAddressLine2 { get; set; }
+
+        [DisplayName("Address Line 3")]
+        public string PhysicalAddressLine3 { get; set; }
+
+        [DisplayName("Address Line 4")]
+        public string PhysicalAddressLine4 { get; set; }
+
+        [DisplayName("Postal Code")]
+        public string PhysicalPostalCode { get; set; }
+
+        [DisplayName("Same as Physical Address")]
+        public bool ISAddressTheSame { get; set; }
+
+        [DisplayName("Address Line 1")]
+        [Required]
+        public string PostalAddressLine1 { get; set; }
+
+        [DisplayName("Address Line 2")]
+        [Required]
+        public string PostalAddressLine2 { get; set; }
+
+        [DisplayName("Address Line 3")]
+        public string PostalLine3 { get; set; }
+
+        [DisplayName("Address Line 4")]
+        public string PostalAddressLine4 { get; set; }
+
+        [DisplayName("Postal Code")]
+        public string PostalPostalCode { get; set; }
+
+
+
     }
 }

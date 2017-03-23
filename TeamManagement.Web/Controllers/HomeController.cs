@@ -9,7 +9,7 @@ using TeamManagement.Web.Models;
 
 namespace TeamManagement.Web.Controllers
 {
-     [Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class HomeController : Controller
     {
         [Authorize(Roles = "Admin")]
@@ -22,32 +22,34 @@ namespace TeamManagement.Web.Controllers
             string errorMessage = TempData["ErrorMessage"].ToString();
             return View("Error", errorMessage);
         }
-        public JsonResult GetPersonInformations()
-        {
-            var listOfPlayers = new PlayerDetailsBL();
-            var playerDetailsList = new List<PlayerDetailsList>();
 
-            var playerDetails = listOfPlayers.GetALL();
+        #region
+        //public JsonResult GetPersonInformations()
+        //{
+        //    var listOfPlayers = new PlayerDetailsBL();
+        //    var playerDetailsList = new List<PlayerDetailsList>();
 
-            foreach (var player in playerDetails)
-            {
-                playerDetailsList.Add
-                (
-                     new PlayerDetailsList
-                     {
-                         Id = player.id,
-                         DateOfBirth = player.DateOfBirth,
-                         FirstName = player.FirstName,
-                         LastName = player.LastName,
-                         Weight = player.Weight,
-                         Height = player.Height,
-                         Notes = player.Notes
+        //    var playerDetails = listOfPlayers.GetALL();
 
-                     });
-            }
-            return Json(playerDetailsList, JsonRequestBehavior.AllowGet);
-        }
+        //    foreach (var player in playerDetails)
+        //    {
+        //        playerDetailsList.Add
+        //        (
+        //             new PlayerDetailsList
+        //             {
+        //                 Id = player.id,
+        //                 DateOfBirth = player.DateOfBirth,
+        //                 FirstName = player.FirstName,
+        //                 LastName = player.LastName,
+        //                 Weight = player.Weight,
+        //                 Height = player.Height,
+        //                 Notes = player.Notes
 
+        //             });
+        //    }
+        //    return Json(playerDetailsList, JsonRequestBehavior.AllowGet);
+        //}
+        #endregion
         public JsonResult GetFeaturesAndScores()
         {
             var playDetails = new PlayDetailsBL();
@@ -65,10 +67,10 @@ namespace TeamManagement.Web.Controllers
                          PlayingAgainst = detail.TeamAgainst,
                          Season = Session["Season"].ToString(),
                          Venue = detail.Venue,
-                         
+                         id = detail.Id.ToString(),
                          AwayTeamScore = detail.AwayScore.ToString(),
                          Date = (System.DateTime)detail.FixtureDate,
-                         HomeScore = detail.HomeScore.ToString()                        
+                         HomeScore = detail.HomeScore.ToString()
                      });
             }
             return Json(model, JsonRequestBehavior.AllowGet);
@@ -104,13 +106,13 @@ namespace TeamManagement.Web.Controllers
             return View();
         }
 
-         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public ActionResult AddTeam()
         {
             return View();
         }
 
-         [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult AddTeam(TeamModel model)
         {
@@ -144,56 +146,91 @@ namespace TeamManagement.Web.Controllers
         }
 
 
-         [HttpGet]
-        public ActionResult AddFeatures ()
-         {
-             var teamNameBl = new TeamDetailsBL();
-             var model = new TeamFeaturesModel();
+        [HttpGet]
+        public ActionResult AddFeatures()
+        {
+            var teamNameBl = new TeamDetailsBL();
+            var model = new TeamFeaturesModel();
+          //  var playDetails = new PlayDetailsBL();
 
-             var teamDetails = teamNameBl.GetSingle();
-             if (teamDetails != null)
-             {
-                 model.Season = teamDetails.SeasonYear;
-                 model.HomeTeam = teamDetails.TeamName;
-                 model.TeamId = teamDetails.Id;
+            var teamDetails = teamNameBl.GetSingle();
+            if (teamDetails != null)
+            {
+                model.Season = teamDetails.SeasonYear;
+                model.HomeTeam = teamDetails.TeamName;
+                model.TeamId = teamDetails.Id;
 
-                 Session["HomeTeam"] = model.HomeTeam;
-                 Session["Season"] = model.Season;
-             }
-             return View(model);
-         }
-         [HttpPost]
-         public ActionResult AddFeatures(TeamFeaturesModel model)
-         {
-             if (ModelState.IsValid)
-             {
-                 var addFeature = new PlayDetailsBL();
-                 var addfeatureModel = new TeamManagement.BO.PlayDetail
-                 {
+                Session["HomeTeam"] = model.HomeTeam;
+                Session["Season"] = model.Season;
+            }
+            return View(model);
+        }
+
+           [HttpPost]
+        public ActionResult UpdateScores(TeamFeaturesModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var updateScores = new PlayDetailsBL();
+                var updateScoresModel = new TeamManagement.BO.tbl_PlayDetails
+                {
+                    HomeScore = model.HomeScore,
+                    AwayScore = model.AwayTeamScore,
+                    Id =int.Parse( model.id)
+
+                };
+                string message = updateScores.Update(updateScoresModel);
+
+                if (message.Equals(String.Empty))
+                {
+                    model.successMessage = true;
+                    model.errorMessage = "Scores successfully updated";
+                    return View(model);
+                }
+                else
+                {
+                    model.successMessage = false;
+                    model.errorMessage = message;
+                    return View(model);
+                }
+            }
+
+            return View();
+        }
+        [HttpPost]
+        public ActionResult AddFeatures(TeamFeaturesModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var addFeature = new PlayDetailsBL();
+                var addfeatureModel = new TeamManagement.BO.PlayDetail
+                {
                     Season = model.Season,
                     TeamAgainst = model.PlayingAgainst,
                     Venue = model.Venue,
                     TeamId = model.TeamId
 
-                 };
-                 string message = addFeature.Insert(addfeatureModel);
+                };
+                string message = addFeature.Insert(addfeatureModel);
 
-                 if (message.Equals(String.Empty))
-                 {
-                     model.successMessage = true;
-                     model.errorMessage = "Team Successfully added";
-                     return View(model);
-                 }
-                 else
-                 {
-                     model.successMessage = false;
-                     model.errorMessage = message;
-                     return View(model);
-                 }
-             }
+                if (message.Equals(String.Empty))
+                {
+                    model.successMessage = true;
+                    model.errorMessage = "Team Successfully added";
+                    return View(model);
+                }
+                else
+                {
+                    model.successMessage = false;
+                    model.errorMessage = message;
+                    return View(model);
+                }
+            }
 
-             return View();
-         }
+            return View();
+        }
+
+
     }
 
 }

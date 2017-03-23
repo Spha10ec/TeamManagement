@@ -28,14 +28,14 @@
     </div>
 </div>
 <div id="dialog" style="display: none">
-    <input type="hidden" id="id" />
-
-    @using (Html.BeginForm("AddFeatures", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id="addFeatures" }))
+   
+    @using (Html.BeginForm("AddFeatures", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addFeatures" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.TeamId)
         @Html.HiddenFor(m => m.Season)
         @Html.HiddenFor(m => m.HomeTeam)
+        @Html.HiddenFor(m => m.id)
         <div class="form-group">
             @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
             @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
@@ -49,41 +49,46 @@
         <button type="button" id="btnSave" class="btn btn-default">Add</button>
         <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
     }
-</div>
-<div id="updateScores" style="display: none">
-    <input type="hidden" id="id" />
 
-    @using (Html.BeginForm("UpdateScores", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addFeatures" }))
+
+</div>
+<div id="updateScores" class="my_modal" style="display: none">
+  
+    @using (Html.BeginForm("UpdateScores", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "updateScores" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.TeamId)
         @Html.HiddenFor(m => m.Season)
-        @Html.HiddenFor(m => m.HomeTeam)
+        @Html.HiddenFor(m => m.HomeTeam)   
+        @Html.HiddenFor(m => m.id)   
         <div class="form-group">
-            @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
-            @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.Venue, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
-            @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
-        </div>
-         <div class="form-group">
-          <label> @Model.HomeTeam</label>
+            <label> @Model.HomeTeam Score</label>
             @Html.TextBoxFor(m => m.HomeScore, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
             @Html.ValidationMessageFor(m => m.HomeScore, null, new { @class = "errorMessage" })
         </div>
-         <div class="form-group">
-          <label> @Model.PlayingAgainst</label>
+        <div class="form-group">
+            <label> Other team Score</label>
             @Html.TextBoxFor(m => m.AwayTeamScore, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
             @Html.ValidationMessageFor(m => m.AwayTeamScore, null, new { @class = "errorMessage" })
         </div>
-        <button type="button" id="btnSave" class="btn btn-default">Add</button>
+        <button type="submit" id="btnSubmit" class="btn btn-default">Add</button>
         <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
     }
-</div>
-<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+
+    <style>
+        .my_modal {
+            width: 400px !important;
+        }
+
+            .my_modal label, .my_modal input {
+                margin-left: 14px;
+            }
+
+            .my_modal input {
+                width: 61px;
+            }
+    </style>
+</div><script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
         var grid, dialog;
@@ -91,14 +96,14 @@
             dataSource: '../Home/GetFeaturesAndScores',
             uiLibrary: 'bootstrap',
             columns: [
-                { field: 'id', hidden: true },
+                { field: 'id', sortable: true },
                    { field: 'Date', sortable: true, type: 'date', format: 'dd/mm/yyyy' },
                 { field: 'HomeTeam', sortable: true },
                  { field: 'HomeScore', title: '', width: 70 },
                 { field: 'PlayingAgainst', title: 'Team playing with', sortable: true },
                  { field: 'AwayTeamScore', title: '', width: 70 },
                 { field: 'Venue', title: 'Venue', sortable: true },
-                { width: 70, tmpl: '<a href="#">Scores</a>', align: 'center', events: { 'click': UpdateScores }},
+                { width: 70, tmpl: '<a href="#">Scores</a>', align: 'center', events: { 'click': UpdateScores } },
                 { title: '', field: 'Edit', width: 34, type: 'icon', icon: 'glyphicon-pencil', tooltip: 'Edit', events: { 'click': Edit } },
                 { title: '', field: 'Delete', width: 34, type: 'icon', icon: 'glyphicon-remove', tooltip: 'Delete', events: { 'click': Delete } }
             ],
@@ -119,7 +124,9 @@
             modal: true
         });
         function UpdateScores(e) {
-            $('#id').val(e.data.id);
+
+            $('#id').val(e.data.record.id);
+            //alert($('#id').val())
             $('#HomeTeam').val(e.data.record.HomeTeam);
             $('#PlayingAgainst').val(e.data.record.PlayingAgainst);
             $('#Season').val(e.data.record.Season);
@@ -141,14 +148,22 @@
             }
         }
         function Save() {
-            if ($('#ID').val()) {
-                var id = parseInt($('#ID').val());
+            if ($('#id').val()) {
+                var id = parseInt($('#id').val());
                 $("#addFeatures").submit();
                 grid.updateRow(id, { 'id': id, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val() });
             } else {
                 $("#addFeatures").submit();
                 grid.addRow({ 'id': grid.count(true) + 1, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val() });
             }
+            dialog.close();
+        }
+        function UpdateTeamScores() {
+         //   if ($('#id').val()) {
+                var id = parseInt($('#id').val());
+                $("#updateScores").submit();
+                grid.updateRow(id, { 'id': id, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val(), 'HomeScore': $('#HomeScore').val(), 'AwayTeamScore': $('#AwayTeamScore').val() });
+          //  }
             dialog.close();
         }
         $('#btnAdd').on('click', function () {
@@ -158,6 +173,7 @@
             $('#dialog').dialog('open');
         });
         $('#btnSave').on('click', Save);
+        $('#btnSubmit').on('click', UpdateTeamScores);
         $('#btnCancel').on('click', function () {
             dialog.close();
         });

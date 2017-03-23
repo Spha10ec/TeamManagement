@@ -34,9 +34,9 @@ namespace TeamManagement.BL
         {
             playDetails.Delete(Id);
         }
-        public void Update(tbl_PlayDetails tblPlayDetails)
+        public string Update(tbl_PlayDetails tblPlayDetails)
         {
-            playDetails.Update(tblPlayDetails);
+            return playDetails.Update(tblPlayDetails);
         }
     }
 }

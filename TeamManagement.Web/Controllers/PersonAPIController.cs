@@ -14,32 +14,7 @@ namespace TeamManagement.Web.Controllers
       //  private SurveyDBEntities db = new SurveyDBEntities();
 
         // GET: api/PersonAPI
-        public IQueryable<PlayerDetailsList> GetPersonInformations()
-        {
-            var listOfPlayers = new PlayerDetailsBL();
-            var playerDetailsList = new List<PlayerDetailsList>();
-
-            var playerDetails = listOfPlayers.GetALL();
-
-            foreach (var player in playerDetails)
-            {
-                playerDetailsList.Add
-                (
-                     new PlayerDetailsList
-                     {
-                         DateOfBirth = player.DateOfBirth,
-                         FirstName = player.FirstName,
-                         LastName = player.LastName,
-                         Weight = player.Weight,
-                         Height = player.Height,
-                         Notes = player.Notes
-
-                     });
-            }
-            return playerDetailsList.AsQueryable();
-        }
-
-        // GET: api/PersonAPI/5
+       
         //[ResponseType(typeof(PersonInformation))]
         //public IHttpActionResult GetPersonInformation(int id)
         //{

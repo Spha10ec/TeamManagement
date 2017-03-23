@@ -49,12 +49,22 @@ namespace TEamManagement.DL
             db.PlayDetails.Remove(playDetail);
             Save();
         }
-        public void Update(tbl_PlayDetails playDetails)
+        public string Update(tbl_PlayDetails playDetails)
         {
-            db.Entry(playDetails).State = EntityState.Modified;
-            db.Configuration.ValidateOnSaveEnabled = false;
-            Save();
-            db.Configuration.ValidateOnSaveEnabled = true;
+             var errorMessage = String.Empty;
+             try
+             {
+                 db.Entry(playDetails).State = EntityState.Modified;
+                 db.Configuration.ValidateOnSaveEnabled = false;
+                 Save();
+                 db.Configuration.ValidateOnSaveEnabled = true;
+                 return errorMessage;
+             }
+             catch (Exception ex)
+             {
+                 errorMessage = ex.Message;
+                 return errorMessage;
+             }
         }
         public void Save()
         {
