@@ -5,6 +5,7 @@
 @Html.Partial("_Slides")
 <link href="~/css/bootstrap.min.css" rel="stylesheet" />
 <link href="~/css/prettify.css" rel="stylesheet" />
+<script src="~/Views/Player/playerDetails.js"></script>
 <div class="section">
 
     <div class="container">
@@ -56,7 +57,9 @@
                     }
                 </div>
                 <div class="tab-pane" id="tab3">
-                    3
+                    @{
+                        Html.RenderPartial("_AcademicDetails", new TeamManagement.Web.Models.AcademicDetails());
+                    }
                 </div>
                 <div class="tab-pane" id="tab4">
                     4

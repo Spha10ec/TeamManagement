@@ -50,13 +50,19 @@ namespace TeamManagement.Web.Models
 
 
         [DisplayName("Home Number")]
-        public string HOmeNumber { get; set; }
+        public string HomeNumber { get; set; }
 
         [DisplayName("Work Number")]
         public string WorkNumber { get; set; }
 
         [DisplayName("Fax Number")]
         public string FaxNumber { get; set; }
+
+          [DisplayName("Email Address")]
+        public string EmailAdress { get; set; }
+
+          [DisplayName("Other Email Address")]
+          public string AlternativeEmailAdress { get; set; }
 
         [DisplayName("Address Line 1")]
         [Required]
@@ -97,5 +103,27 @@ namespace TeamManagement.Web.Models
 
 
 
+    }
+
+    public class AcademicDetails
+    {
+        [DisplayName("Degree")]
+        [Required(ErrorMessage = "Degree is required")]
+        public string Degree { get; set; }
+
+
+        [DisplayName("Enrollemnt Year")]
+        [Required(ErrorMessage = "Year is required")]
+        public string Year { get; set; }
+
+        [DisplayName("Subject Code")]
+        public string SubjectCode { get; set; }
+
+        [DisplayName("Subject Name")]
+        public string SubjectName { get; set; }
+
+        [DisplayName("Subjects")]
+        public List<Subject> Subjects { get; set; }
+       
     }
 }
