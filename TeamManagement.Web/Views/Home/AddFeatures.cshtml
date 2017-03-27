@@ -6,6 +6,29 @@
 @Html.Partial("_Slides")
 <div class="section">
     <div class="container">
+        @if (!String.IsNullOrEmpty(Model.successMessage) || !String.IsNullOrEmpty(Model.errorMessage))
+        {
+            <div class="alert alert-success col-sm-10">
+                @if (!String.IsNullOrEmpty(Model.successMessage))
+                {
+                    <span>
+                        <strong>Success!</strong> @Model.successMessage
+                    </span>
+                }
+
+                else if (!String.IsNullOrEmpty(Model.errorMessage))
+                {
+                    <p class ="red">
+                        @Model.errorMessage
+                        </p>
+                    <span >
+                      
+                        @Html.ValidationSummary()
+                    </span>
+                }
+
+            </div>
+        }
         <div class="row">
             <div class="col-xs-8">
                 <form class="form-inline">
@@ -28,24 +51,43 @@
     </div>
 </div>
 <div id="dialog" style="display: none">
-   
+
     @using (Html.BeginForm("AddFeatures", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "addFeatures" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.TeamId)
         @Html.HiddenFor(m => m.Season)
         @Html.HiddenFor(m => m.HomeTeam)
-        @Html.HiddenFor(m => m.id)
+        @Html.HiddenFor(m => m.recordId)
         <div class="form-group">
-            @Html.LabelFor(m => m.PlayingAgainst, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
-            @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.PlayingAgainst, new { @class = "control-label" })
+            </div>
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => m.PlayingAgainst, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+                @Html.ValidationMessageFor(m => m.PlayingAgainst, null, new { @class = "errorMessage" })
+            </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.Venue, new { @class = "col-md-2 control-label" })
-            @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
-            @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.Venue, new { @class = " control-label" })
+            </div>
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => m.Venue, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
+                @Html.ValidationMessageFor(m => m.Venue, null, new { @class = "errorMessage" })
+            </div>
         </div>
+        <div class="form-group">
+            <div class="col-xs-4">
+                @Html.LabelFor(m => m.Date, new { @class = "c control-label" })
+            </div>
+            <div class="col-xs-4">
+                @Html.TextBoxFor(m => m.Date, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name", @id = "datetimepicker4", @value= DateTime.Now })
+
+                @Html.ValidationMessageFor(m => m.Date, null, new { @class = "errorMessage" })
+            </div>
+        </div>
+
         <button type="button" id="btnSave" class="btn btn-default">Add</button>
         <button type="button" id="btnCancel" class="btn btn-default">Cancel</button>
     }
@@ -53,15 +95,16 @@
 
 </div>
 <div id="updateScores" class="my_modal" style="display: none">
-  
+
     @using (Html.BeginForm("UpdateScores", "Home", FormMethod.Post, new { @class = "form-horizontal", role = "form", id = "updateScores" }))
     {
         @Html.AntiForgeryToken()
         @Html.HiddenFor(m => m.TeamId)
         @Html.HiddenFor(m => m.Season)
-        @Html.HiddenFor(m => m.HomeTeam)   
-        @Html.HiddenFor(m => m.id)   
-        <div class="form-group">
+        @Html.HiddenFor(m => m.HomeTeam)
+         @Html.HiddenFor(m => m.id)
+    <input type="hidden" id="recordIds" name="recordIds">
+    <div class="form-group">
             <label> @Model.HomeTeam Score</label>
             @Html.TextBoxFor(m => m.HomeScore, new { @class = "form-control", data_val = "true", data_val_required = "You must enter a team name" })
             @Html.ValidationMessageFor(m => m.HomeScore, null, new { @class = "errorMessage" })
@@ -76,6 +119,10 @@
     }
 
     <style>
+        div#dialog {
+            width: 30% !important;
+        }
+
         .my_modal {
             width: 400px !important;
         }
@@ -88,16 +135,28 @@
                 width: 61px;
             }
     </style>
-</div><script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+</div>
+<script src="http://stevenlevithan.com/assets/misc/date.format.js"></script>
+<script src="~/Scripts/moment-with-locales.js"></script>
+<script src="~/Scripts/transition.js"></script>
+<script src="~/Scripts/collapse.js"></script>
+<script src="~/Scripts/bootstrap-datetimepicker.js"></script>
 <script type="text/javascript">
+    $(function () {
+        var dateNow = new Date();
+        $('#datetimepicker4').datetimepicker({
+            format: 'YYYY/MM/DD',
+            defaultDate: '2017/01/01'
+        });
+    });
     $(document).ready(function () {
         var grid, dialog;
         grid = $('#grid').grid({
             dataSource: '../Home/GetFeaturesAndScores',
             uiLibrary: 'bootstrap',
             columns: [
-                { field: 'id', sortable: true },
-                   { field: 'Date', sortable: true, type: 'date', format: 'dd/mm/yyyy' },
+                { field: 'id', hidden: true },
+                   { field: 'Date', sortable: true, type: 'date', format: 'yyyy/mm/dd' },
                 { field: 'HomeTeam', sortable: true },
                  { field: 'HomeScore', title: '', width: 70 },
                 { field: 'PlayingAgainst', title: 'Team playing with', sortable: true },
@@ -125,8 +184,7 @@
         });
         function UpdateScores(e) {
 
-            $('#id').val(e.data.record.id);
-            //alert($('#id').val())
+            $('#recordIds').val(e.data.record.id);
             $('#HomeTeam').val(e.data.record.HomeTeam);
             $('#PlayingAgainst').val(e.data.record.PlayingAgainst);
             $('#Season').val(e.data.record.Season);
@@ -159,11 +217,13 @@
             dialog.close();
         }
         function UpdateTeamScores() {
-         //   if ($('#id').val()) {
-                var id = parseInt($('#id').val());
-                $("#updateScores").submit();
-                grid.updateRow(id, { 'id': id, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val(), 'HomeScore': $('#HomeScore').val(), 'AwayTeamScore': $('#AwayTeamScore').val() });
-          //  }
+            //   if ($('#id').val()) {
+            var id = parseInt($('#id').val());
+            $('#id').val($('#recordIds').val());
+           // alert($('#id').val());
+            $("#updateScores").submit();
+            grid.updateRow(id, { 'id': id, 'PlayingAgainst': $('#PlayingAgainst').val(), 'Venue': $('#Venue').val(), 'HomeScore': $('#HomeScore').val(), 'AwayTeamScore': $('#AwayTeamScore').val() });
+            //  }
             dialog.close();
         }
         $('#btnAdd').on('click', function () {

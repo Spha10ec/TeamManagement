@@ -22,8 +22,8 @@
           <Property Name="TeamAgainst" Type="nvarchar" MaxLength="20" Nullable="false" />
           <Property Name="FixtureDate" Type="date" />
           <Property Name="Venue" Type="nvarchar" MaxLength="50" />
-          <Property Name="HomeScore" Type="nvarchar" MaxLength="2" Nullable="false" />
-          <Property Name="AwayScore" Type="nvarchar" MaxLength="2" Nullable="false" />
+          <Property Name="HomeScore" Type="nvarchar" MaxLength="2" />
+          <Property Name="AwayScore" Type="nvarchar" MaxLength="2" />
           <Property Name="TeamId" Type="int" />
           <Property Name="Season" Type="nvarchar" MaxLength="50" />
         </EntityType>
@@ -126,8 +126,8 @@ warning 6002: The table/view 'TeamManagement.dbo.PlayerDetails' does not have a 
           <Property Name="TeamAgainst" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="FixtureDate" Type="DateTime" Precision="0" />
           <Property Name="Venue" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="HomeScore" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
-          <Property Name="AwayScore" Type="String" Nullable="false" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="HomeScore" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
+          <Property Name="AwayScore" Type="String" MaxLength="2" FixedLength="false" Unicode="true" />
           <Property Name="TeamId" Type="Int32" />
           <Property Name="Season" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
         </EntityType>

@@ -54,6 +54,7 @@ namespace TeamManagement.Web.Controllers
         {
             var playDetails = new PlayDetailsBL();
             var model = new List<TeamFeaturesModel>();
+            var teamDetails = new TeamDetailsBL();
 
             var result = playDetails.GetALL();
 
@@ -63,14 +64,14 @@ namespace TeamManagement.Web.Controllers
                 (
                      new TeamFeaturesModel
                      {
-                         HomeTeam = Session["HomeTeam"].ToString(),
+                         HomeTeam = teamDetails.GetByID((int)detail.TeamId).TeamName, // Session["HomeTeam"].ToString(),
                          PlayingAgainst = detail.TeamAgainst,
-                         Season = Session["Season"].ToString(),
-                         Venue = detail.Venue,
-                         id = detail.Id.ToString(),
-                         AwayTeamScore = detail.AwayScore.ToString(),
+                         Season = teamDetails.GetByID((int)detail.TeamId).SeasonYear,
+                         Venue = (detail.Venue ?? "").ToString(),
+                         id = detail.Id,
+                         AwayTeamScore = (detail.AwayScore ?? "").ToString(),
                          Date = (System.DateTime)detail.FixtureDate,
-                         HomeScore = detail.HomeScore.ToString()
+                         HomeScore = (detail.HomeScore ?? "").ToString()
                      });
             }
             return Json(model, JsonRequestBehavior.AllowGet);
@@ -159,9 +160,19 @@ namespace TeamManagement.Web.Controllers
                 model.Season = teamDetails.SeasonYear;
                 model.HomeTeam = teamDetails.TeamName;
                 model.TeamId = teamDetails.Id;
-
+                model.Date = DateTime.Now;
                 Session["HomeTeam"] = model.HomeTeam;
                 Session["Season"] = model.Season;
+            }
+            model.successMessage = (TempData["SuccessMessage"] ?? String.Empty).ToString();
+            model.errorMessage = (TempData["ErrorMessage"] ?? String.Empty).ToString();
+            if (!String.IsNullOrEmpty( model.successMessage))
+            {
+                model.isSuccessMessage = true;
+            }
+            if (!String.IsNullOrEmpty(model.errorMessage))
+            {
+                model.isSuccessMessage = true;
             }
             return View(model);
         }
@@ -169,33 +180,35 @@ namespace TeamManagement.Web.Controllers
            [HttpPost]
         public ActionResult UpdateScores(TeamFeaturesModel model)
         {
-            if (ModelState.IsValid)
-            {
+        //    var errors = ModelState.Values.SelectMany(v => v.Errors);
+         //   var errors2 = ModelState.Where(x => x.Value.Errors.Count > 0).Select(x => new { x.Key, x.Value.Errors }).ToArray();
+           // if (ModelState.IsValid)
+           // {
                 var updateScores = new PlayDetailsBL();
-                var updateScoresModel = new TeamManagement.BO.tbl_PlayDetails
+                var updateScoresModel = new TeamManagement.BO.PlayDetail
                 {
                     HomeScore = model.HomeScore,
                     AwayScore = model.AwayTeamScore,
-                    Id =int.Parse( model.id)
+                    Id =model.id
 
                 };
                 string message = updateScores.Update(updateScoresModel);
 
                 if (message.Equals(String.Empty))
                 {
-                    model.successMessage = true;
-                    model.errorMessage = "Scores successfully updated";
-                    return View(model);
+                    model.isSuccessMessage = true;
+                    TempData["SuccessMessage"] = "Scores successfully updated";
+                    return RedirectToAction("AddFeatures");
                 }
                 else
                 {
-                    model.successMessage = false;
-                    model.errorMessage = message;
-                    return View(model);
+                    model.isSuccessMessage = false;
+                    TempData["ErrorMessage"] = message;
+                    return RedirectToAction("AddFeatures");
                 }
-            }
+        //    }
 
-            return View();
+          //  return View();
         }
         [HttpPost]
         public ActionResult AddFeatures(TeamFeaturesModel model)
@@ -208,26 +221,29 @@ namespace TeamManagement.Web.Controllers
                     Season = model.Season,
                     TeamAgainst = model.PlayingAgainst,
                     Venue = model.Venue,
-                    TeamId = model.TeamId
+                    TeamId = model.TeamId,
+                    FixtureDate = model.Date,
+                   // HomeTeam = model.HomeTeam
+                    
 
                 };
                 string message = addFeature.Insert(addfeatureModel);
 
                 if (message.Equals(String.Empty))
                 {
-                    model.successMessage = true;
+                    model.isSuccessMessage = true;
                     model.errorMessage = "Team Successfully added";
                     return View(model);
                 }
                 else
                 {
-                    model.successMessage = false;
+                    model.isSuccessMessage = false;
                     model.errorMessage = message;
                     return View(model);
                 }
             }
-
-            return View();
+            model.HomeTeam = Session["HomeTeam"].ToString();
+            return View(model);
         }
 
 

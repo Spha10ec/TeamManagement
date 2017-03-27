@@ -11,12 +11,16 @@ namespace TeamManagement.Web.Models
     {
         public string errorMessage { get; set; }
 
-        public bool successMessage { get; set; }
+        public bool isSuccessMessage { get; set; }
+
+        public string successMessage { get; set; }
 
         public int TeamId { get; set; }
    //     public int id { get; set; }
 
-        public string id { get; set; }
+        public int id { get; set; }
+
+        public int recordId { get; set; }
 
         [DisplayName("My Team")]
         [Required]
